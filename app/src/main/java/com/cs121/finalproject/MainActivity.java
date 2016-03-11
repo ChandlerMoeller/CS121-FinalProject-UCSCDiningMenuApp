@@ -14,13 +14,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
-import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -49,14 +47,17 @@ public class MainActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-    boolean bydininghall = true;
     Retrofit retrofit;
-    private List<Gsonstuff> menulist;
+    private List<MenuItem> listmenu;
+    private ArrayList<List<MenuItem>> listdaydiningmenu = new ArrayList<List<MenuItem>>(3);
+    private ArrayList<ArrayList<List<MenuItem>>> listdayalldiningmenu = new ArrayList<ArrayList<List<MenuItem>>>(5);
+
     private String name;
     private String url;
     private List<String> tags;
     private String ingredients;
     private String allergens;
+    Fragment frag = new ByDiningHallFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -115,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -126,11 +128,13 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if (id == R.id.action_sort_bydining) {
-            bydininghall = true;
             return true;
         }
         if (id == R.id.action_sort_bymeal) {
-            bydininghall = false;
+
+//            Intent intent2 = new Intent(this, MainActivity.class);
+//            startActivity(intent2);
+
             return true;
         }
         if (id == R.id.action_search) {
@@ -139,41 +143,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    /*public static class PlaceholderFragment extends Fragment {
-        *//**
-         * The fragment argument representing the section number for this
-         * fragment.
-         *//*
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        public PlaceholderFragment() {
-        }
-
-        *//**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         *//*
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
-        }
-    }*/
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -190,20 +159,10 @@ public class MainActivity extends AppCompatActivity {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
-                case 0: whichmenusfragment();
-                    break;
+                case 0: return new ByDiningHallFragment();
                 case 1: return new ByDiningHallFragment();
             }
-
-            return whichmenusfragment();
-        }
-
-        public Fragment whichmenusfragment() {
-            if (bydininghall) {
-                return new ByDiningHallFragment();
-            }
-            //else make bymeal the default
-            return new ByMealFragment();
+            return new ByDiningHallFragment();
         }
 
         @Override
@@ -231,14 +190,14 @@ public class MainActivity extends AppCompatActivity {
 
         double latitude = 1;
         //Retrofit stuff
-        Call<List<Gsonstuff>> queryResponseCall =
+        Call<List<MenuItem>> queryResponseCall =
                 service.getWeather(latitude);
 
 
         //Call retrofit asynchronously
-        queryResponseCall.enqueue(new Callback<List<Gsonstuff>>() {
+        queryResponseCall.enqueue(new Callback<List<MenuItem>>() {
             @Override
-            public void onResponse(Response<List<Gsonstuff>> response) {
+            public void onResponse(Response<List<MenuItem>> response) {
                 //View parentView = findViewById(R.id.mainrelativelayout);
                 if (response.body().isEmpty()) {
                     //Snackbar for Server Error
@@ -255,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
 
                     //Update variables with new data
                     //resultlist = response.body().resultList;
-                    menulist = response.body();
+                    listmenu = response.body();
 
                     //Adapter stuff for the listview
                     /*adapter2 = new MyAdapter(ChatActivity.this, R.layout.list_element_yourmessage, R.layout.list_element_mymessage, resultlist, client_userId);
@@ -286,6 +245,6 @@ public class MainActivity extends AppCompatActivity {
 
     public interface GetJson {
         @GET("menuoutputdetailed/jmenu_01_05_2016_CM_LU.json")
-        Call<List<Gsonstuff>> getWeather(@Query("lat") double latitude);
+        Call<List<MenuItem>> getWeather(@Query("lat") double latitude);
     }
 }

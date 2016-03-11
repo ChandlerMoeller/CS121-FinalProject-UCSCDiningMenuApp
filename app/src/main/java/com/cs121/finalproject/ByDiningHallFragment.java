@@ -1,8 +1,11 @@
 package com.cs121.finalproject;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +15,6 @@ import android.view.ViewGroup;
  * A simple {@link Fragment} subclass.
  */
 public class ByDiningHallFragment extends Fragment {
-
 
     public ByDiningHallFragment() {
         // Required empty public constructor

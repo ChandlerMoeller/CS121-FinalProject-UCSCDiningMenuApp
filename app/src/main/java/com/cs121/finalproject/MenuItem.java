@@ -10,7 +10,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 //@Generated("org.jsonschema2pojo")
-public class Gsonstuff {
+public class MenuItem {
 
     @SerializedName("name")
     @Expose
