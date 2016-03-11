@@ -29,6 +29,7 @@ import retrofit2.GsonConverterFactory;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public class MainActivity extends AppCompatActivity {
@@ -94,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         //End of Retrofit stuff
 
         //Get data on startup
-        contentRefresh(retrofit);
+        GetDaysMenusFromServer("11", "03", "2016");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                contentRefresh(retrofit);
+                GetDaysMenusFromServer("11", "03", "2016");
             }
         });
 
@@ -159,8 +160,10 @@ public class MainActivity extends AppCompatActivity {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
-                case 0: return new ByDiningHallFragment();
-                case 1: return new ByDiningHallFragment();
+                case 0:
+                    return new ByDiningHallFragment();
+                case 1:
+                    return new ByDiningHallFragment();
             }
             return new ByDiningHallFragment();
         }
@@ -183,15 +186,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void GetDaysMenusFromServer(String day, String month, String year) {
+        String[] ca = {"CM", "CS", "EO", "NT", "PK"};
+        String[] meal = {"BR", "LU", "DI"};
+        for (String a : ca) {
+            for (String b : meal) {
+                String url = "jmenu_" + month + "_" + day + "_" + year + "_" + a + "_" + b + ".json";
+                getjsonfromurl(retrofit, url);
+            }
+        }
+    }
+
 
     //This function is called when refreshing
-    public void contentRefresh(Retrofit retrofit) {
+    public void getjsonfromurl(Retrofit retrofit, String url) {
         GetJson service = retrofit.create(GetJson.class);
 
         double latitude = 1;
         //Retrofit stuff
         Call<List<MenuItem>> queryResponseCall =
-                service.getWeather(latitude);
+                service.getWeather(url, latitude);
 
 
         //Call retrofit asynchronously
@@ -244,7 +258,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     public interface GetJson {
-        @GET("menuoutputdetailed/jmenu_01_05_2016_CM_LU.json")
-        Call<List<MenuItem>> getWeather(@Query("lat") double latitude);
+        @GET("menuoutputdetailed/{url}")
+        Call<List<MenuItem>> getWeather(@Path("url") String url,
+                @Query("lat") double latitude);
     }
 }
