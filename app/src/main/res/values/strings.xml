@@ -1,5 +1,12 @@
 <resources>
-    <string name="app_name">FinalProject</string>
+    <string name="app_name">UC Santa Cruz Dining</string>
     <string name="action_settings">Settings</string>
+    <string name="action_search">Search</string>
+    <string name="action_sort">Sort</string>
+    <string name="action_sort_bydining">By Dining Hall</string>
+    <string name="action_sort_bymeal">By Meal</string>
     <string name="section_format">Hello World from section: %1$d</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
