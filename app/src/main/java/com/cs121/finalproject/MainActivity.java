@@ -18,7 +18,10 @@ import android.view.View;
 
 import android.widget.Toast;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -30,9 +33,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
-public class MainActivity extends AppCompatActivity {
+import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment;
+import com.codetroopers.betterpickers.datepicker.DatePickerDialogFragment;
+
+public class MainActivity extends AppCompatActivity implements
+        CalendarDatePickerDialogFragment.OnDateSetListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -52,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private List<MenuItem> listmenu;
     private ArrayList<List<MenuItem>> listdaydiningmenu = new ArrayList<List<MenuItem>>(3);
     private ArrayList<ArrayList<List<MenuItem>>> listdayalldiningmenu = new ArrayList<ArrayList<List<MenuItem>>>(5);
+    private int[][] retrofitcheck = new int[5][3];
 
     private String name;
     private String url;
@@ -64,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        retrofitclear();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -101,12 +110,31 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                CalendarDatePickerDialogFragment cdp = new CalendarDatePickerDialogFragment()
+                        .setOnDateSetListener(MainActivity.this);
+                cdp.show(getSupportFragmentManager(), "fragment_date_picker_name");
+
                 GetDaysMenusFromServer("11", "03", "2016");
             }
         });
 
+    }
+
+    @Override
+    public void onDateSet(CalendarDatePickerDialogFragment dialog, int year, int monthOfYear, int dayOfMonth) {
+        //mResultTextView.setText(getString(R.string.calendar_date_picker_result_values, year, monthOfYear, dayOfMonth));
+
+    }
+
+    @Override
+    public void onResume() {
+        // Example of reattaching to the fragment
+        super.onResume();
+        CalendarDatePickerDialogFragment calendarDatePickerDialogFragment = (CalendarDatePickerDialogFragment) getSupportFragmentManager()
+                .findFragmentByTag("fragment_date_picker_name");
+        if (calendarDatePickerDialogFragment != null) {
+            calendarDatePickerDialogFragment.setOnDateSetListener(this);
+        }
     }
 
 
@@ -189,23 +217,31 @@ public class MainActivity extends AppCompatActivity {
     public void GetDaysMenusFromServer(String day, String month, String year) {
         String[] ca = {"CM", "CS", "EO", "NT", "PK"};
         String[] meal = {"BR", "LU", "DI"};
+
+        ArrayList<List<MenuItem>> locallistdaydiningmenu = new ArrayList<List<MenuItem>>(3);
+        ArrayList<ArrayList<List<MenuItem>>> locallistdayalldiningmenu = new ArrayList<ArrayList<List<MenuItem>>>(5);
+
+        int j = 0;
+
         for (String a : ca) {
+            int i = 0;
             for (String b : meal) {
                 String url = "jmenu_" + month + "_" + day + "_" + year + "_" + a + "_" + b + ".json";
-                getjsonfromurl(retrofit, url);
+                getjsonfromurl(retrofit, url, i, j);
+                i++;
             }
+            j++;
         }
     }
 
 
     //This function is called when refreshing
-    public void getjsonfromurl(Retrofit retrofit, String url) {
+    public void getjsonfromurl(Retrofit retrofit, String url, final int i, final int j) {
         GetJson service = retrofit.create(GetJson.class);
 
-        double latitude = 1;
         //Retrofit stuff
         Call<List<MenuItem>> queryResponseCall =
-                service.getWeather(url, latitude);
+                service.getMenus(url);
 
 
         //Call retrofit asynchronously
@@ -222,13 +258,30 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (!response.body().isEmpty()) {
                     //Toast for on success
-                    Toast toast = Toast.makeText(MainActivity.this, "Content Refreshed", Toast.LENGTH_LONG);
+                    /*Toast toast = Toast.makeText(MainActivity.this, "Content Refreshed", Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.TOP, 0, 0);
-                    toast.show();
+                    toast.show();*/
 
                     //Update variables with new data
                     //resultlist = response.body().resultList;
-                    listmenu = response.body();
+                    //listdayalldiningmenu.set(j, locallistdaydiningmenu);
+                    listdayalldiningmenu.get(j).set(i, response.body());
+                    retrofitcheck[j][i] = 1;
+
+                    if (isretrofitdone()) {
+                        //
+                        //TODO: CHRIS ADD TO DATABASE HERE
+                        //
+                        //add listdayalldiningmenu to database
+
+                        Toast toast = Toast.makeText(MainActivity.this, "CHRIS ADD TO DATABASE", Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.TOP, 0, 0);
+                        toast.show();
+
+                        //clear listdayalldiningmenu and retrofitcheck
+                        retrofitclear();
+                    }
+
 
                     //Adapter stuff for the listview
                     /*adapter2 = new MyAdapter(ChatActivity.this, R.layout.list_element_yourmessage, R.layout.list_element_mymessage, resultlist, client_userId);
@@ -257,9 +310,40 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public boolean isretrofitdone() {
+        for (int[] aRetrofitcheck : retrofitcheck) {
+            for (int bRetrofitcheck : aRetrofitcheck) {
+                if (bRetrofitcheck != 1) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public void retrofitclear() {
+        listdayalldiningmenu.clear();
+
+        listdayalldiningmenu.add(new ArrayList<List<MenuItem>>(3));
+        listdayalldiningmenu.add(new ArrayList<List<MenuItem>>(3));
+        listdayalldiningmenu.add(new ArrayList<List<MenuItem>>(3));
+        listdayalldiningmenu.add(new ArrayList<List<MenuItem>>(3));
+        listdayalldiningmenu.add(new ArrayList<List<MenuItem>>(3));
+        for (ArrayList<List<MenuItem>> v : listdayalldiningmenu) {
+            v.add(listmenu);
+            v.add(listmenu);
+            v.add(listmenu);
+        }
+
+        for (int i=0; i<5; i++) {
+            for (int j=0; j<3; j++) {
+                retrofitcheck[i][j] = 0;
+            }
+        }
+    }
+
     public interface GetJson {
         @GET("menuoutputdetailed/{url}")
-        Call<List<MenuItem>> getWeather(@Path("url") String url,
-                @Query("lat") double latitude);
+        Call<List<MenuItem>> getMenus(@Path("url") String url);
     }
 }

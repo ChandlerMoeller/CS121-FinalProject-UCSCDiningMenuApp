@@ -8,6 +8,7 @@
     <!-- TODO: Update blank fragment layout -->
     <android.support.v7.widget.GridLayout
         android:layout_marginTop="0dp"
+        android:layout_marginBottom="30dp"
         android:id="@+id/by_dining_hall_gridlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,7 +30,7 @@
             grid:layout_columnSpan="2"
             android:gravity="center"
             android:background="#FF33B5E5"
-            android:text="Tile1" />
+            android:text="Crown//Merrill" />
 
         <Button
             android:layout_width="0dp"
@@ -39,7 +40,7 @@
             grid:layout_gravity="fill"
             android:gravity="center"
             android:background="#FF33B5E5"
-            android:text="Tile2" />
+            android:text="Nine/Ten" />
 
         <Button
             android:layout_width="0dp"
@@ -49,7 +50,7 @@
             grid:layout_gravity="fill"
             android:gravity="center"
             android:background="#FF33B5E5"
-            android:text="Tile3" />
+            android:text="Eight/Oakes" />
 
         <Button
             android:layout_width="0dp"
@@ -59,7 +60,7 @@
             grid:layout_gravity="fill"
             android:gravity="center"
             android:background="#FF33B5E5"
-            android:text="Tile4" />
+            android:text="Cowell/Stevenson" />
 
         <Button
             android:layout_width="0dp"
@@ -69,7 +70,7 @@
             grid:layout_gravity="fill"
             android:gravity="center"
             android:background="#FF33B5E5"
-            android:text="Tile5" />
+            android:text="Porter/Kresge" />
     </android.support.v7.widget.GridLayout>
 
 </FrameLayout>

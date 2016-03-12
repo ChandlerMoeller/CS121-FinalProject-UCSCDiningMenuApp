@@ -33,4 +33,6 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.0.0-RC1'
     compile 'com.squareup.okhttp3:logging-interceptor:3.0.0-RC1'
     compile 'com.android.support:gridlayout-v7:24.0.0-alpha1'
+    compile 'joda-time:joda-time:2.9.2'
+    compile 'com.code-troopers.betterpickers:library:2.5.1'
 }
