@@ -274,9 +274,17 @@ public class MainActivity extends AppCompatActivity implements
                         //
                         //add listdayalldiningmenu to database
 
-                        Toast toast = Toast.makeText(MainActivity.this, "CHRIS ADD TO DATABASE", Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.TOP, 0, 0);
-                        toast.show();
+                        //------------------------------------------------------------------------------
+                        //passedMenuList.setMenuList(response.body());
+
+                        DBHandler db = new DBHandler(getApplicationContext());
+                        //MainActivity.this.deleteDatabase("DiningMenuDB.db");
+                        db.insertFavouritesItem(listmenu.get(0));
+                        db.deleteFavouritesItem(listmenu.get(0));
+                        //Toast toast2 = Toast.makeText(MainActivity.this, db.getFavouritesItems().get(0).name, Toast.LENGTH_LONG);
+                        //toast2.setGravity(Gravity.TOP, 0, 0);
+                        //toast2.show();
+                        //------------------------------------------------------------------------------
 
                         //clear listdayalldiningmenu and retrofitcheck
                         retrofitclear();
