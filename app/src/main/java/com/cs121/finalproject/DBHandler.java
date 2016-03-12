@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import java.util.ArrayList;
 import android.util.Log;
+import java.util.List;
 
 import org.json.JSONObject;
 import org.json.JSONArray;
@@ -82,17 +83,28 @@ public class DBHandler extends SQLiteOpenHelper {
         //db.delete(TABLE_FAVOURITES, COLUMN_DININGITEM + " = ?", new String[] {String.valueOf(exFavourite)});
         //int y = db.delete(TABLE_FAVOURITES, COLUMN_DININGITEM + " = ?", new String[] {String.valueOf(0)});
         String nameWithoutSpaces = exFavourite.name.replaceAll("\\s+", "");
-        int y = db.delete(TABLE_FAVOURITES, MENUITEM_ID + " = ?", new String[] {nameWithoutSpaces});
-        Log.d("-----------------------", "-------------: " + y);
+        /*int y = */db.delete(TABLE_FAVOURITES, MENUITEM_ID + " = ?", new String[]{nameWithoutSpaces});
+        //Log.d("-----------------------", "-------------: " + y);
         db.close();
+    }
+
+    public boolean checkIfFavourite(String item) {
+        ArrayList<MenuItem> favouriteitems = getFavouritesItems();
+        for(MenuItem menuitem : favouriteitems) {
+          if(menuitem.name.equals(item)) {
+            return true;
+          }
+        }
+        return false;
     }
     //----------------------------------------------------------------------------------------------
 
     //-----------------------------cache one DB-----------------------------------------------------
-    public void insertCacheOneItem(ArrayList<MenuItem> favourite) {
+    public void insertCacheOneItem(ArrayList<ArrayList<List<MenuItem>>> allDHAllMeals) {
 
         ContentValues values = new ContentValues();
-        values.put(COLUMN_DININGITEM, favourite.get(0).name);
+        Gson gson = new Gson();
+        values.put(COLUMN_DININGITEM, gson.toJson(allDHAllMeals).getBytes());
 
         SQLiteDatabase db = this.getWritableDatabase();
 
