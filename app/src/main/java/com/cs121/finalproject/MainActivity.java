@@ -65,6 +65,9 @@ public class MainActivity extends AppCompatActivity implements
     private List<String> tags;
     private String ingredients;
     private String allergens;
+    //----------------------------------------------------------------------------------------------
+    private int numCachedMenus = 0;
+    //----------------------------------------------------------------------------------------------
     Fragment frag = new ByDiningHallFragment();
 
     @Override
@@ -275,9 +278,17 @@ public class MainActivity extends AppCompatActivity implements
                         //add listdayalldiningmenu to database
 
                         //------------------------------------------------------------------------------
-                        //passedMenuList.setMenuList(response.body());
-
                         DBHandler db = new DBHandler(getApplicationContext());
+                        if(numCachedMenus < 2) {
+                            db.insertCacheOneItem(listdayalldiningmenu);
+                            numCachedMenus++;
+                        }else {
+                            db.insertCacheOneItem(listdayalldiningmenu);
+                            db.deleteCacheOneItem();
+                        }
+                        //Toast toast2 = Toast.makeText(MainActivity.this, db.getCacheOneItems().get(1).get(2).get(0).name, Toast.LENGTH_LONG);
+                        //toast2.setGravity(Gravity.TOP, 0, 0);
+                        //toast2.show();
                         //MainActivity.this.deleteDatabase("DiningMenuDB.db");
                         //db.insertFavouritesItem(listmenu.get(0));
                         //db.deleteFavouritesItem(listmenu.get(0));
