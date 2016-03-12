@@ -107,7 +107,6 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(COLUMN_DININGITEM, gson.toJson(allDHAllMeals).getBytes());
 
         SQLiteDatabase db = this.getWritableDatabase();
-
         db.insert(TABLE_CACHEONE, null, values);
         db.close();
     }
