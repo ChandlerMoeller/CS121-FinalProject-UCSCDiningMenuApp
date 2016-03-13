@@ -1,6 +1,8 @@
 package com.cs121.finalproject;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +61,52 @@ public class ListAdapter extends ArrayAdapter<MenuItem> {
         //TextView tv = (TextView) newView.findViewById(R.id.message_message);
         TextView b = (TextView) newView.findViewById(R.id.element_name);
         //tv.setText(w.name);
-        b.setText(w.name);
+        String fixedname = w.name;
+
+
+
+
+
+        //Fixes the text output
+        if (w.name != null) {
+            if (w.name.contains("&apos;")) {
+                fixedname = w.name.replace("&apos;", "'");
+            }
+            if (w.name.contains("&amp;")) {
+                fixedname = w.name.replace("&amp;", "&");
+            }
+            if (w.name.contains("&quot;")) {
+                fixedname = w.name.replace("&quot;", "\"");
+            }
+
+            b.setText(fixedname);
+
+            //if (element != null) {
+            if (w.name.equals("Farm Fridays")) {
+                b.setTypeface(null, Typeface.BOLD);
+                b.setTextColor(Color.RED);
+                ////holder.LinearLayoutView.setBackgroundColor(ContextCompat.getColor(context, R.color.dining_greensubbar));
+            }
+            if (w.name.equals("Healthy Mondays")) {
+                b.setTypeface(null, Typeface.BOLD);
+                b.setTextColor(Color.RED);
+                ////holder.LinearLayoutView.setBackgroundColor(ContextCompat.getColor(context, R.color.dining_greensubbar));
+            }
+            if (w.name.contains("BAR") || w.name.contains("Bar ") || w.name.endsWith("Bar")) {
+                //holder.textView.setTextColor(Color.YELLOW);
+                //TextView questionValue = (TextView) findViewById(R.layout.TextView01);
+                b.setTypeface(null, Typeface.BOLD);
+            }
+            //}
+
+        }
+
+
+
+
+
+
+
 
 
 
@@ -102,16 +149,29 @@ public class ListAdapter extends ArrayAdapter<MenuItem> {
                         db.deleteFavouritesItem(w);
                     }
                 }
+
+
             });
         }
 
         // Set a listener for the whole list item.
         newView.setTag(R.string.one, w.name);
 
+        final int position2 = position;
+
         //newView.setTag(R.string.two, w.nickname);
         newView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (position2 != 0) {
+
+                    //TODO; add dialiog
+
+
+                }
+
+
+
                 /*SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
                 if (settings.getBoolean("spoofmode_switch", true)) {
                     SharedPreferences.Editor e = settings.edit();
