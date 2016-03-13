@@ -16,6 +16,13 @@ import com.google.gson.reflect.TypeToken;
 
 public class DBHandler extends SQLiteOpenHelper {
 
+    // some of this code was modified from code found at
+    // http://stackoverflow.com/questions/23577825/android-save-object-as-blob-in-sqlite
+    // http://instinctcoder.com/android-studio-sqlite-database-example/
+    // http://www.techotopia.com/index.php/An_Android_Studio_SQLite_Database_Tutorial
+    // and http://www.androidhive.info/2013/09/android-sqlite-database-with-multiple-tables/
+
+
     int cachedMenuNum = 0;
 
     private static final int DATABASE_VERSION = 1;
@@ -33,8 +40,6 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     //----------------------------favourites DB-----------------------------------------------------
-    // credit goes to http://stackoverflow.com/questions/23577825/android-save-object-as-blob-in-sqlite
-    // for the object serialization code
     public void insertFavouritesItem(MenuItem favourite) {
 
         ContentValues values = new ContentValues();
@@ -92,9 +97,9 @@ public class DBHandler extends SQLiteOpenHelper {
     public boolean checkIfFavourite(String item) {
         ArrayList<MenuItem> favouriteitems = getFavouritesItems();
         for(MenuItem menuitem : favouriteitems) {
-          if(menuitem.name.equals(item)) {
-            return true;
-          }
+            if(menuitem.name.equals(item)) {
+                return true;
+            }
         }
         return false;
     }
@@ -117,21 +122,22 @@ public class DBHandler extends SQLiteOpenHelper {
         cachedMenuNum++;
     }
 
-    public ArrayList<ArrayList<List<MenuItem>>> getCacheOneItems() {
+    public ArrayList<ArrayList<ArrayList<List<MenuItem>>>> getCacheOneItems() {
         String selectQuery = "SELECT  * FROM " + TABLE_CACHEONE;
 
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery(selectQuery, null);
 
-        ArrayList<ArrayList<List<MenuItem>>> cacheitems = new ArrayList<>();
+        ArrayList<ArrayList<ArrayList<List<MenuItem>>>> cacheitems = new ArrayList<>();
 
         if (cursor.moveToFirst()) {
             do {
                 byte[] blob = cursor.getBlob(cursor.getColumnIndex(COLUMN_DININGITEM));
                 String json = new String(blob);
                 Gson gson = new Gson();
-                cacheitems = gson.fromJson(json, new TypeToken<ArrayList<ArrayList<List<MenuItem>>>>() {}.getType());
+                ArrayList<ArrayList<List<MenuItem>>> cacheitem = gson.fromJson(json, new TypeToken<ArrayList<ArrayList<List<MenuItem>>>>() {}.getType());
+                cacheitems.add(cacheitem);
             } while (cursor.moveToNext());
         }
         cursor.close();
