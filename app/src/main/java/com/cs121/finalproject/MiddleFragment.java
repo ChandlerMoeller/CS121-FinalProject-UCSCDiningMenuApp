@@ -36,12 +36,12 @@ public class MiddleFragment extends Fragment {
         fragmentTransaction.commit();*/
 
         //This is the default page
-        Menusview(0);
+        Menusview(0, null, null);
 
         return inflater.inflate(R.layout.fragment_middle, container, false);
     }
 
-    public void Menusview(int choice) {
+    public void Menusview(int choice, int[] intarray, String str) {
         switch (choice) {
             case 0:
                 FragmentManager fragmentManager = getFragmentManager();
@@ -63,7 +63,8 @@ public class MiddleFragment extends Fragment {
                 FragmentManager fragmentManager3 = getFragmentManager();
                 FragmentTransaction fragmentTransaction3 = fragmentManager3.beginTransaction();
 
-                ListFragment fragment3 = new ListFragment();
+                //ListFragment fragment3 = new ListFragment();
+                ListFragment fragment3 = ListFragment.newInstance(intarray, str);
                 fragmentTransaction3.replace(R.id.frag, fragment3);
                 fragmentTransaction3.addToBackStack("test");
                 fragmentTransaction3.commit();

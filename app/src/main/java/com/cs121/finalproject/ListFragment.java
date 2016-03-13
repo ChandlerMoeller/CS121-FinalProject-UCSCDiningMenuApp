@@ -3,10 +3,12 @@ package com.cs121.finalproject;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +30,15 @@ public class ListFragment extends Fragment {
     private String mParam2;
 
 
+    ListAdapter adapter1;
+    ListView scrollview1;
+    List<MenuItem> resultlist1;
     ListAdapter adapter2;
+    ListView scrollview2;
+    List<MenuItem> resultlist2;
+    /*ListAdapter adapter2;
     ListView scrollview;
-    List<MenuItem> resultlist;
+    List<MenuItem> resultlist;*/
     ArrayList<ArrayList<List<MenuItem>>> allmenus = new ArrayList<ArrayList<List<MenuItem>>>(5);;
 
 
@@ -80,14 +88,123 @@ public class ListFragment extends Fragment {
 
     public void adapt(View l) {
         //allmenus = ((MainActivity) getActivity()).getmenus();
-        resultlist = allmenus.get(3).get(2);
 
-        if (resultlist != null) {
-            adapter2 = new ListAdapter(getContext(), R.layout.list_element, R.layout.list_meal_header, allmenus.get(3).get(2), R.layout.list_dining_header, "test");
-            scrollview = (ListView) l.findViewById(R.id.scrollview1);
-            scrollview.setAdapter(adapter2);
-            adapter2.notifyDataSetChanged();
+        int howmanyadded = 1;
+        if (mParam1 != null) {
+            for (int i = 0; i < mParam1.length; i++) {
+                int j = -1;
+                int k = -1;
+                if (mParam1[i] == 1) {
+                    if (0 <= i && i <= 2) {
+                        //Crown/Merrill
+                        j = 0;
+                    }
+                    if (3 <= i && i <= 5) {
+                        //Cowell/Stevenson
+                        j = 1;
+                    }
+                    if (6 <= i && i <= 8) {
+                        //Eight/Oakes
+                        j = 2;
+                    }
+                    if (9 <= i && i <= 11) {
+                        //Nine/Ten
+                        j = 3;
+                    }
+                    if (12 <= i && i <= 15) {
+                        //PorterKresge
+                        j = 4;
+                    }
+                    if ((i + 1) % 3 == 1) {
+                        //Breakfast
+                        k = 0;
+                    }
+                    if ((i + 1) % 3 == 2) {
+                        //Lunch
+                        k = 1;
+                    }
+                    if ((i + 1) % 3 == 0) {
+                        //Dinner
+                        k = 2;
+                    }
+
+
+                    //resultlist = allmenus.get(j).get(k);
+                    List<MenuItem> resultlist = allmenus.get(j).get(k);
+                    int scrollviewid = -1;
+
+                    if (resultlist != null) {
+                        switch (howmanyadded) {
+                            case 1:
+                                scrollviewid = R.id.scrollview1;
+                                /*adapter1 = new ListAdapter(getContext(), R.layout.list_element, R.layout.list_meal_header, resultlist, R.layout.list_dining_header, "test");
+                                scrollview1 = (ListView) l.findViewById(scrollviewid);
+                                scrollview1.setAdapter(adapter1);
+                                adapter1.notifyDataSetChanged();*/
+                                break;
+                            case 2:
+                                scrollviewid = R.id.scrollview2;
+                                /*adapter2 = new ListAdapter(getContext(), R.layout.list_element, R.layout.list_meal_header, resultlist, R.layout.list_dining_header, "test");
+                                scrollview2 = (ListView) l.findViewById(scrollviewid);
+                                scrollview2.setAdapter(adapter1);
+                                adapter1.notifyDataSetChanged();*/
+                                break;
+                            case 3:
+                                scrollviewid = R.id.scrollview3;
+                                break;
+                            case 4:
+                                scrollviewid = R.id.scrollview4;
+                                break;
+                            case 5:
+                                scrollviewid = R.id.scrollview5;
+                                break;
+                            default:
+                                scrollviewid = R.id.scrollview1;
+                                break;
+                        }
+
+
+                        Log.d("Testing", "j is: "+j);
+                        Log.d("Testing", "k is: " + k);
+                        Log.d("Testing", "howmanyadded is: " + howmanyadded);
+                        ListAdapter adapter2 = new ListAdapter(getContext(), R.layout.list_element, R.layout.list_meal_header, resultlist, R.layout.list_dining_header, "test");
+                        ListView scrollview = (ListView) l.findViewById(scrollviewid);
+                        scrollview.setAdapter(adapter2);
+                        adapter2.notifyDataSetChanged();
+
+
+                        int howmanyitems = resultlist.size();
+                        int howbig = howmanyitems * (int) getResources().getDimension(R.dimen.item_height);;
+                        Log.e("big", ""+howmanyitems);
+
+                        //Set the heigh programmatically
+                        //
+                        //Used ideas from http://stackoverflow.com/questions/7441696/how-to-change-list-views-height-progmmatically
+                        //
+                        ViewGroup.LayoutParams params = scrollview.getLayoutParams();
+                        params.height = howbig;
+                        scrollview.setLayoutParams(params);
+                        scrollview.requestLayout();
+                    }
+
+
+
+
+
+
+                /*if (resultlist != null) {
+                    adapter2 = new ListAdapter(getContext(), R.layout.list_element, R.layout.list_meal_header, allmenus.get(3).get(2), R.layout.list_dining_header, "test");
+                    scrollview = (ListView) l.findViewById(R.id.scrollview2);
+                    scrollview.setAdapter(adapter2);
+                    adapter2.notifyDataSetChanged();
+                }*/
+
+                    howmanyadded++;
+                }
+            }
         }
+
+
     }
 
 }

@@ -81,7 +81,7 @@ public class ListAdapter extends ArrayAdapter<MenuItem> {
         newView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+                /*SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
                 if (settings.getBoolean("spoofmode_switch", true)) {
                     SharedPreferences.Editor e = settings.edit();
                     e.putString("spoofed_user_id", v.getTag(R.string.one).toString());
@@ -93,7 +93,7 @@ public class ListAdapter extends ArrayAdapter<MenuItem> {
                     int duration = Toast.LENGTH_SHORT;
                     Toast toast = Toast.makeText(context, s2+" | "+s, duration);
                     toast.show();
-                }
+                }*/
             }
         });
 

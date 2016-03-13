@@ -33,7 +33,8 @@
             android:gravity="center"
             android:background="#FF33B5E5"
             android:text="Breakfast"
-            android:onClick="test"/>
+            android:onClick="test"
+            android:tag="6"/>
 
         <Button
             android:layout_width="0dp"
@@ -45,7 +46,8 @@
             android:gravity="center"
             android:background="#FF33B5E5"
             grid:layout_columnSpan="2"
-            android:text="Lunch" />
+            android:text="Lunch"
+            android:tag="7"/>
 
         <Button
             android:layout_width="0dp"
@@ -57,7 +59,8 @@
             android:gravity="center"
             android:background="#FF33B5E5"
             grid:layout_columnSpan="2"
-            android:text="Dinner" />
+            android:text="Dinner"
+            android:tag="8"/>
 
     </android.support.v7.widget.GridLayout>
 

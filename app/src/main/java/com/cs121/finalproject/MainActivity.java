@@ -236,11 +236,11 @@ public class MainActivity extends AppCompatActivity implements
             return true;
         }
         if (id == R.id.action_sort_bydining) {
-            testfrag.Menusview(0);
+            testfrag.Menusview(0, null, null);
             return true;
         }
         if (id == R.id.action_sort_bymeal) {
-            testfrag.Menusview(1);
+            testfrag.Menusview(1, null, null);
             return true;
         }
         if (id == R.id.search) {
@@ -457,7 +457,8 @@ public class MainActivity extends AppCompatActivity implements
         //transaction.addToBackStack(null);
 // Commit the transaction
         //transaction.commit();
-        testfrag.Menusview(3);
+        int[] pass = whattodisplay(v.getTag().toString());
+        testfrag.Menusview(3, pass, null);
 
 
         //testfrag.Menusview();
@@ -466,6 +467,70 @@ public class MainActivity extends AppCompatActivity implements
 
     ArrayList<ArrayList<List<MenuItem>>> getmenus() {
         return listdayalldiningmenu;
+    }
+
+
+
+    public int[] whattodisplay(String tag) {
+        int[] whattodisplay = new int[5];
+        switch (tag) {
+            case "1":
+                //Crown/Merrill
+                whattodisplay[0] = 1;
+                whattodisplay[1] = 1;
+                whattodisplay[2] = 1;
+                break;
+            case "2":
+                //Nine/Ten
+                whattodisplay[9] = 1;
+                whattodisplay[10] = 1;
+                whattodisplay[11] = 1;
+                break;
+            case "3":
+                //Eight/Oakes
+                whattodisplay[6] = 1;
+                whattodisplay[7] = 1;
+                whattodisplay[8] = 1;
+                break;
+            case "4":
+                //Cowell/Stevenson
+                whattodisplay[3] = 1;
+                whattodisplay[4] = 1;
+                whattodisplay[5] = 1;
+                break;
+            case "5":
+                //Porter/Kresge
+                whattodisplay[12] = 1;
+                whattodisplay[13] = 1;
+                whattodisplay[14] = 1;
+                break;
+            case "6":
+                //Breakfast
+                whattodisplay[0] = 1;
+                whattodisplay[3] = 1;
+                whattodisplay[6] = 1;
+                whattodisplay[9] = 1;
+                whattodisplay[12] = 1;
+                break;
+            case "7":
+                //Lunch
+                whattodisplay[1] = 1;
+                whattodisplay[4] = 1;
+                whattodisplay[7] = 1;
+                whattodisplay[10] = 1;
+                whattodisplay[13] = 1;
+                break;
+            case "8":
+                //Dinner
+                whattodisplay[2] = 1;
+                whattodisplay[5] = 1;
+                whattodisplay[8] = 1;
+                whattodisplay[11] = 1;
+                whattodisplay[14] = 1;
+                break;
+        }
+
+        return whattodisplay;
     }
 
 
