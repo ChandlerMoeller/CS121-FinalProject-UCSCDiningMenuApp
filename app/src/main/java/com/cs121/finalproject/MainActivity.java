@@ -1,9 +1,18 @@
 package com.cs121.finalproject;
 
+import android.content.ComponentName;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.app.SearchManager;
+import android.content.Context;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
+import android.widget.SearchView;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,6 +26,9 @@ import android.view.View;
 
 import android.widget.Toast;
 
+import org.joda.time.DateTime;
+
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -62,6 +74,10 @@ public class MainActivity extends AppCompatActivity implements
     private List<String> tags;
     private String ingredients;
     private String allergens;
+    //----------------------------------------------------------------------------------------------
+    private int numCachedMenus = 0;
+    //----------------------------------------------------------------------------------------------
+    Fragment frag = new ByDiningHallFragment();
 
     String currentday;
     String currentmonth;
@@ -159,11 +175,52 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+    //credit goes to http://stackoverflow.com/questions/12022715/unable-to-show-keyboard-automatically-in-the-searchview
+    //for showInputMethod() and the below searchview listener
+    private void showInputMethod(View view) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.showSoftInput(view, 0);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    showInputMethod(view.findFocus());
+                }
+            }
+        });
+
+        //credit goes to http://stackoverflow.com/questions/25930380/android-search-widgethow-to-hide-the-close-button-in-search-view-by-default
+        //for code which gets rid of searchview button
+        ImageView searchCloseButton = null;
+        try {
+            Field searchField = SearchView.class.getDeclaredField("mCloseButton");
+            searchField.setAccessible(true);
+            searchCloseButton = (ImageView) searchField.get(searchView);
+        } catch (Exception e) {
+            Log.e("search error", "Error finding close button", e);
+        }
+
+        Drawable transparentDrawable = new ColorDrawable(Color.TRANSPARENT);
+        if (searchCloseButton != null) {
+            searchCloseButton.setEnabled(false);
+            searchCloseButton.setImageDrawable(transparentDrawable);
+        }
+
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
         return true;
     }
 
@@ -186,7 +243,10 @@ public class MainActivity extends AppCompatActivity implements
             testfrag.Menusview(1);
             return true;
         }
-        if (id == R.id.action_search) {
+        if (id == R.id.search) {
+            SearchView searchView =
+                    (SearchView) item.getActionView();
+            searchView.setIconified(false);
             return true;
         }
 
@@ -297,6 +357,16 @@ public class MainActivity extends AppCompatActivity implements
                         //passedMenuList.setMenuList(response.body());
 
                         DBHandler db = new DBHandler(getApplicationContext());
+                        if(numCachedMenus < 2) {
+                            db.insertCacheOneItem(listdayalldiningmenu);
+                            numCachedMenus++;
+                        }else {
+                            db.insertCacheOneItem(listdayalldiningmenu);
+                            db.deleteCacheOneItem();
+                        }
+                        //Toast toast2 = Toast.makeText(MainActivity.this, db.getCacheOneItems().get(1).get(2).get(0).name, Toast.LENGTH_LONG);
+                        //toast2.setGravity(Gravity.TOP, 0, 0);
+                        //toast2.show();
                         //MainActivity.this.deleteDatabase("DiningMenuDB.db");
                         //db.insertFavouritesItem(listmenu.get(0));
                         //db.deleteFavouritesItem(listmenu.get(0));
