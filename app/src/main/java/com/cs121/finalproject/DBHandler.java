@@ -152,6 +152,7 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         Gson gson = new Gson();
         values.put(COLUMN_DININGITEM, gson.toJson(allDHAllMeals).getBytes());
+        cachedMenuNum++;
         String cacheNum = ""+cachedMenuNum;
         values.put(CACHE_ID,cacheNum);
         values.put(CACHE_DMY,dayMonthYear);
@@ -161,7 +162,6 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.insert(TABLE_CACHEONE, null, values);
         db.close();
-        cachedMenuNum++;
     }
 
     public ArrayList<ArrayList<ArrayList<List<MenuItem>>>> getCacheOneItems() {
@@ -211,7 +211,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public void deleteCacheOneItem(/*ArrayList<ArrayList<List<MenuItem>>> exAllDHAllMeals*/) {
         SQLiteDatabase db = this.getReadableDatabase();
         Gson gson = new Gson();
-        db.delete(TABLE_CACHEONE, CACHE_ID + " = ?", new String[]{""+(cachedMenuNum-3)});
+        db.delete(TABLE_CACHEONE, CACHE_ID + " = ?", new String[]{""+(cachedMenuNum-2)});
         //String nameWithoutSpaces = exAllDHAllMeals.get(0).get(0).get(0).name.replaceAll("\\s+", "");
         //db.delete(TABLE_CACHEONE, MENUITEM_ID + " = ?", new String[]{nameWithoutSpaces});
         db.close();

@@ -96,6 +96,8 @@ public class MainActivity extends AppCompatActivity implements
 
         retrofitclear();
 
+        //MainActivity.this.deleteDatabase("DiningMenuDB.db");
+
         Calendar c = Calendar.getInstance(TimeZone.getDefault());
         pickedday = singleinttodoublestring(c.get(Calendar.DAY_OF_MONTH));
         pickedmonth = singleinttodoublestring(c.get(Calendar.MONTH)+1);
@@ -391,12 +393,12 @@ public class MainActivity extends AppCompatActivity implements
                         //String dayMonthYear = pickedday + "-" + pickedmonth + "-" + pickedyear;
                         DBHandler db = new DBHandler(getApplicationContext());
                         if(numCachedMenus < 2) {
-                            db.insertCacheOneItem(listdayalldiningmenu, dayMonthYear);
                             passDateToSearchActivity.setDate(dayMonthYear);
+                            db.insertCacheOneItem(listdayalldiningmenu, dayMonthYear);
                             numCachedMenus++;
                         }else {
-                            db.insertCacheOneItem(listdayalldiningmenu, dayMonthYear);
                             passDateToSearchActivity.setDate(dayMonthYear);
+                            db.insertCacheOneItem(listdayalldiningmenu, dayMonthYear);
                             db.deleteCacheOneItem();
                         }
                         //Toast toast2 = Toast.makeText(MainActivity.this, db.getCacheOneItems().get(1).get(2).get(0).name, Toast.LENGTH_LONG);
@@ -540,10 +542,44 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     ArrayList<ArrayList<List<MenuItem>>> getfavmenus() {
-        DBHandler db = new DBHandler(this);
+        DBHandler dba = new DBHandler(this);
         //TODO, Chris, look at this this
-        return listdayalldiningmenu;
-        //return db.getFavouritesAsAllMenu();
+        //return listdayalldiningmenu;
+        //DBHandler dba = new DBHandler(context);
+
+        ArrayList<ArrayList<List<MenuItem>>> favitems;
+        ArrayList<ArrayList<List<MenuItem>>> favhititems = new ArrayList<>(5);
+        favhititems.add(new ArrayList<List<MenuItem>>(3));
+        favhititems.add(new ArrayList<List<MenuItem>>(3));
+        favhititems.add(new ArrayList<List<MenuItem>>(3));
+        favhititems.add(new ArrayList<List<MenuItem>>(3));
+        favhititems.add(new ArrayList<List<MenuItem>>(3));
+        for (ArrayList<List<MenuItem>> v : favhititems) {
+            v.add(new ArrayList<MenuItem>());
+            v.add(new ArrayList<MenuItem>());
+            v.add(new ArrayList<MenuItem>());
+        }
+        if(dba.searchCacheForDate(passDateToSearchActivity.getDate()) != null) {
+            favitems = dba.searchCacheForDate(passDateToSearchActivity.getDate());
+            //favitems = dba.getCacheOneItems().get(0);
+        }else{
+            favitems = dba.getCacheOneItems().get(0);
+        }
+        for(MenuItem a : dba.getFavouritesItems()) {
+            for (int i = 0; i <= 4; i++) {
+                for (int j = 0; j <= 2; j++) {
+                    for (int k = 0; k <= favitems.get(i).get(j).size() - 1; k++) {
+                        //String nameWithoutSpaces = favitems.get(i).get(j).get(k).name.replaceAll("\\s+","");
+                        if (/*nameWithoutSpaces*/favitems.get(i).get(j).get(k).name.toLowerCase().equals(a.name.toLowerCase())) {
+                            favhititems.get(i).get(j).add(favitems.get(i).get(j).get(k));
+                            Log.d("logging", ""+favhititems.get(i).get(j).get(0).name);
+                        }
+                    }
+                }
+            }
+        }
+        return favhititems;
+        // return db.getFavouritesAsAllMenu();
     }
 
 

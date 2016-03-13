@@ -71,7 +71,7 @@ public class SearchableActivity extends android.support.v4.app.FragmentActivity 
                       if (cacheitems.get(i).get(j).get(k).name.toLowerCase().equals(query.toLowerCase())) {
 
                          cacheHitItems.get(i).get(j).add(cacheitems.get(i).get(j).get(k));
-                          for(MenuItem x : cacheHitItems.get(i).get(j)){
+                          /*for(MenuItem x : cacheHitItems.get(i).get(j)){
                             if(i == 0) {
                               x.name = "Crown/Merrill during";
                             }else if(i == 1){
@@ -93,13 +93,13 @@ public class SearchableActivity extends android.support.v4.app.FragmentActivity 
                               }
                           }
                           Log.d("cache", cacheHitItems.get(i).get(j).get(0).name);
-                          ayy +=cacheHitItems.get(i).get(j).get(0).name+"\n";
+                          ayy +=cacheHitItems.get(i).get(j).get(0).name+"\n";*/
                       }
                   }
                 }
             }
 
-            searchExplanationText.setText(ayy);
+            //searchExplanationText.setText(ayy);
 
             FragmentManager fragmentManager3 = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction3 = fragmentManager3.beginTransaction();
