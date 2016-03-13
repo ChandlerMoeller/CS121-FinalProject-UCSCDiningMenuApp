@@ -26,6 +26,8 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
     int cachedMenuNum = 0;
+    Context context;
+    private pickedDate passDateToSearchActivity = pickedDate.getPickedDate();
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "DiningMenuDB.db";
@@ -80,6 +82,41 @@ public class DBHandler extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return favouriteitems;
+    }
+
+    public ArrayList<ArrayList<List<MenuItem>>> getFavouritesAsAllMenu() {
+        DBHandler dba = new DBHandler(context);
+
+        ArrayList<ArrayList<List<MenuItem>>> favitems;
+        ArrayList<ArrayList<List<MenuItem>>> favhititems = new ArrayList<>(5);
+        favhititems.add(new ArrayList<List<MenuItem>>(3));
+        favhititems.add(new ArrayList<List<MenuItem>>(3));
+        favhititems.add(new ArrayList<List<MenuItem>>(3));
+        favhititems.add(new ArrayList<List<MenuItem>>(3));
+        favhititems.add(new ArrayList<List<MenuItem>>(3));
+        for (ArrayList<List<MenuItem>> v : favhititems) {
+            v.add(new ArrayList<MenuItem>());
+            v.add(new ArrayList<MenuItem>());
+            v.add(new ArrayList<MenuItem>());
+        }
+        if(dba.searchCacheForDate(passDateToSearchActivity.getDate()) != null) {
+            favitems = dba.searchCacheForDate(passDateToSearchActivity.getDate());
+        }else{
+            favitems = dba.getCacheOneItems().get(0);
+        }
+        for(MenuItem a : dba.getFavouritesItems()) {
+            for (int i = 0; i <= 4; i++) {
+                for (int j = 0; j <= 2; j++) {
+                    for (int k = 0; k <= favitems.get(i).get(j).size() - 1; k++) {
+                        String nameWithoutSpaces = favitems.get(i).get(j).get(k).name.replaceAll("\\s+","");
+                        if (nameWithoutSpaces.toLowerCase().equals(a.name.toLowerCase())) {
+                            favhititems.get(i).get(j).add(favitems.get(i).get(j).get(k));
+                        }
+                    }
+                }
+            }
+        }
+        return favhititems;
     }
 
     public void deleteFavouritesItem(MenuItem exFavourite) {
