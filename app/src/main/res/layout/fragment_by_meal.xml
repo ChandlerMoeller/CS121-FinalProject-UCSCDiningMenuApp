@@ -6,7 +6,6 @@
     android:layout_marginBottom="60dp"
     tools:context="com.cs121.finalproject.ByMealFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <android.support.v7.widget.GridLayout
         android:layout_marginTop="0dp"
         android:layout_marginBottom="0dp"

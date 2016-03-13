@@ -317,7 +317,7 @@ public class MainActivity extends AppCompatActivity implements
         retrofitclear();
 
         //
-        // TODO: Chris, if days menu is not on cache
+        // if days menu is not on cache
         //
         DBHandler db = new DBHandler(getApplicationContext());
         String dayMonthYear = day + "-" + month + "-" + year;
@@ -336,7 +336,7 @@ public class MainActivity extends AppCompatActivity implements
             listdayalldiningmenu = db.searchCacheForDate(dayMonthYear);
         }
         //
-        // TODO: } else if it is then get it from the SQLite data base and set listdayalldiningmenu as it
+        //else if it is then get it from the SQLite data base and set listdayalldiningmenu as it
         //
     }
 
@@ -376,7 +376,7 @@ public class MainActivity extends AppCompatActivity implements
 
                     if (isretrofitdone()) {
                         //
-                        //TODO: CHRIS ADD TO DATABASE HERE
+                        //ADD TO DATABASE HERE
                         //
                         //add listdayalldiningmenu to database
 
