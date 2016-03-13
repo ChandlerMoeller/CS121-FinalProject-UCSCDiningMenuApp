@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -17,10 +16,10 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ListFragment#newInstance} factory method to
+ * Use the {@link ListSearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListFragment extends Fragment {
+public class ListSearchFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -40,10 +39,11 @@ public class ListFragment extends Fragment {
     /*ListAdapter adapter2;
     ListView scrollview;
     List<MenuItem> resultlist;*/
-    ArrayList<ArrayList<List<MenuItem>>> allmenus = new ArrayList<ArrayList<List<MenuItem>>>(5);;
+    ArrayList<ArrayList<List<MenuItem>>> allmenus = new ArrayList<ArrayList<List<MenuItem>>>(5);
+    ;
 
 
-    public ListFragment() {
+    public ListSearchFragment() {
         // Required empty public constructor
     }
 
@@ -56,8 +56,8 @@ public class ListFragment extends Fragment {
      * @return A new instance of fragment ListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ListFragment newInstance(int[] param1, String param2) {
-        ListFragment fragment = new ListFragment();
+    public static ListSearchFragment newInstance(int[] param1, String param2) {
+        ListSearchFragment fragment = new ListSearchFragment();
         Bundle args = new Bundle();
         args.putIntArray(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -81,7 +81,7 @@ public class ListFragment extends Fragment {
         // Inflate the layout for this fragment
         View l = inflater.inflate(R.layout.fragment_list, container, false);
 
-        allmenus = ((MainActivity) getActivity()).getmenus();
+        allmenus = ((SearchableActivity) getActivity()).getsearchmenus();
         adapt(l);
 
         return l;
@@ -205,7 +205,7 @@ public class ListFragment extends Fragment {
                             Log.d("Testing", "j is: " + j);
                             Log.d("Testing", "k is: " + k);
                             Log.d("Testing", "howmanyadded is: " + howmanyadded);
-                            ListAdapter adapter2 = new ListAdapter(getContext(), R.layout.list_element, R.layout.list_meal_header, resultlist, R.layout.list_dining_header, "test");
+                            ListAdapter adapter2 = new ListAdapter(getContext(), R.layout.list_element_no_checkbox, R.layout.list_meal_header, resultlist, R.layout.list_dining_header, "test");
                             ListView scrollview = (ListView) l.findViewById(scrollviewid);
                             scrollview.setAdapter(adapter2);
                             adapter2.notifyDataSetChanged();

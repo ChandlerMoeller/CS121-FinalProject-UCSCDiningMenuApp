@@ -12,13 +12,15 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.TextView;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class SearchableActivity extends Activity {
+public class SearchableActivity extends android.support.v4.app.FragmentActivity {
 
     DBHandler db = new DBHandler(this);
+    ArrayList<ArrayList<List<MenuItem>>> cacheHitItems = new ArrayList<>(5);
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +42,7 @@ public class SearchableActivity extends Activity {
             ArrayList<ArrayList<List<MenuItem>>> cacheitems;
             String ayy = "";
 
-            ArrayList<ArrayList<List<MenuItem>>> cacheHitItems = new ArrayList<>(5);
+            //ArrayList<ArrayList<List<MenuItem>>> cacheHitItems = new ArrayList<>(5);
             cacheHitItems.add(new ArrayList<List<MenuItem>>(3));
             cacheHitItems.add(new ArrayList<List<MenuItem>>(3));
             cacheHitItems.add(new ArrayList<List<MenuItem>>(3));
@@ -63,7 +65,7 @@ public class SearchableActivity extends Activity {
                           //display other dining halls that have the food
 
                          cacheHitItems.get(i).get(j).add(cacheitems.get(i).get(j).get(k));
-                          for(MenuItem x : cacheHitItems.get(i).get(j)){
+                          /*for(MenuItem x : cacheHitItems.get(i).get(j)){
                             if(i == 0) {
                               x.name = "Crown/Merrill during";
                             }else if(i == 1){
@@ -84,14 +86,36 @@ public class SearchableActivity extends Activity {
                                   x.name += " Dinner";
                               }
                           }
-                          ayy +=cacheHitItems.get(i).get(j).get(0).name+"\n";
+                          ayy +=cacheHitItems.get(i).get(j).get(0).name+"\n";*/
                       }
                   }
                 }
             }
 
+            FragmentManager fragmentManager3 = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction3 = fragmentManager3.beginTransaction();
+
+            //ListFragment fragment3 = new ListFragment();
+            String str = "l";
+            int[] intarray = new int[15];
+            for (int i = 0; i < intarray.length; i++) {
+                intarray[i] = 1;
+            }
+
+            ListSearchFragment fragment3 = ListSearchFragment.newInstance(intarray, str);
+            fragmentTransaction3.replace(R.id.searchListContainer, fragment3);
+            fragmentTransaction3.addToBackStack("test");
+            fragmentTransaction3.commit();
+
+
+
+
             //searchExplanationText.setText(ayy);
         }
+    }
+
+    ArrayList<ArrayList<List<MenuItem>>> getsearchmenus() {
+        return cacheHitItems;
     }
 
 }

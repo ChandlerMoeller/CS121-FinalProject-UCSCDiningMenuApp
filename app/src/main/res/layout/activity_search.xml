@@ -10,6 +10,15 @@
         android:id="@+id/searchTextView"
         android:layout_alignParentTop="true" />
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/searchListContainer"
+        android:layout_marginTop="50dp">
+
+
+    </FrameLayout>
+
     <ListView
         android:id="@+id/searchListView"
         android:layout_width="match_parent"
