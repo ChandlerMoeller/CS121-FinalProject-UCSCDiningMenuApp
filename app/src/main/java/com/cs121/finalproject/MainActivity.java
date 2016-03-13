@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements
         });
 
         //credit goes to http://stackoverflow.com/questions/25930380/android-search-widgethow-to-hide-the-close-button-in-search-view-by-default
-        //for code which gets rid of searchview button
+        //for code which gets rid of searchview close button
         ImageView searchCloseButton = null;
         try {
             Field searchField = SearchView.class.getDeclaredField("mCloseButton");
@@ -232,9 +232,9 @@ public class MainActivity extends AppCompatActivity implements
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        //if (id == R.id.action_settings) {
+          //  return true;
+        //}
         if (id == R.id.action_sort_bydining) {
             testfrag.Menusview(0, null, null);
             return true;

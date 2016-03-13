@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.ContentValues;
 import android.database.Cursor;
 import java.util.ArrayList;
+
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.util.Log;
 import java.util.List;
 
@@ -152,6 +154,30 @@ public class DBHandler extends SQLiteOpenHelper {
         //String nameWithoutSpaces = exAllDHAllMeals.get(0).get(0).get(0).name.replaceAll("\\s+", "");
         //db.delete(TABLE_CACHEONE, MENUITEM_ID + " = ?", new String[]{nameWithoutSpaces});
         db.close();
+    }
+
+    public Cursor getWordMatches(String query, String[] columns) {
+        String selection = COLUMN_DININGITEM + " MATCH ?";
+        String[] selectionArgs = new String[] {query+"*"};
+
+        return query(selection, selectionArgs, columns);
+    }
+
+    private Cursor query(String selection, String[] selectionArgs, String[] columns) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+        builder.setTables(TABLE_CACHEONE);
+
+        Cursor cursor = builder.query(db,
+                columns, selection, selectionArgs, null, null, null);
+
+        if (cursor == null) {
+            return null;
+        } else if (!cursor.moveToFirst()) {
+            cursor.close();
+            return null;
+        }
+        return cursor;
     }
 
     //----------------------------------------------------------------------------------------------
