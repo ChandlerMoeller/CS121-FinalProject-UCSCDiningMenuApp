@@ -472,7 +472,7 @@ public class MainActivity extends AppCompatActivity implements
 
 
     public int[] whattodisplay(String tag) {
-        int[] whattodisplay = new int[5];
+        int[] whattodisplay = new int[15];
         switch (tag) {
             case "1":
                 //Crown/Merrill

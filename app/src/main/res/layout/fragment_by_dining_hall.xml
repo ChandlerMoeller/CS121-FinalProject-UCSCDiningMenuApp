@@ -46,6 +46,7 @@
             android:gravity="center"
             android:background="#FF33B5E5"
             android:text="Nine/Ten"
+            android:onClick="test"
             android:tag="2"/>
 
         <Button
@@ -58,6 +59,7 @@
             android:gravity="center"
             android:background="#FF33B5E5"
             android:text="Eight/Oakes"
+            android:onClick="test"
             android:tag="3"/>
 
         <Button
@@ -70,6 +72,7 @@
             android:gravity="center"
             android:background="#FF33B5E5"
             android:text="Cowell/Stevenson"
+            android:onClick="test"
             android:tag="4"/>
 
         <Button
@@ -82,6 +85,7 @@
             android:gravity="center"
             android:background="#FF33B5E5"
             android:text="Porter/Kresge"
+            android:onClick="test"
             android:tag="5"/>
     </android.support.v7.widget.GridLayout>
 

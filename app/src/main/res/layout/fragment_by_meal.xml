@@ -47,6 +47,7 @@
             android:background="#FF33B5E5"
             grid:layout_columnSpan="2"
             android:text="Lunch"
+            android:onClick="test"
             android:tag="7"/>
 
         <Button
@@ -60,6 +61,7 @@
             android:background="#FF33B5E5"
             grid:layout_columnSpan="2"
             android:text="Dinner"
+            android:onClick="test"
             android:tag="8"/>
 
     </android.support.v7.widget.GridLayout>
