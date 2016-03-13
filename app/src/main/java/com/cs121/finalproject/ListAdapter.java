@@ -37,7 +37,7 @@ public class ListAdapter extends ArrayAdapter<MenuItem> {
     public View getView(int position, View convertView, ViewGroup parent) {
         LinearLayout newView;
 
-        MenuItem w = getItem(position);
+        final MenuItem w = getItem(position);
         String itemname = w.name;
 
         // Inflate a new view always.
@@ -73,7 +73,10 @@ public class ListAdapter extends ArrayAdapter<MenuItem> {
             //TODO: Chris, Check if item is in database already
             //if it is in it, then set chk.setChecked(true);
             //
-
+            DBHandler db = new DBHandler(context);
+            if(db.checkIfFavourite(w.name)){
+              chk.setChecked(true);
+            }
 
             // Sets a listener for the button, and a tag for the button as well.
             chk.setTag(new Integer(position));
@@ -86,14 +89,17 @@ public class ListAdapter extends ArrayAdapter<MenuItem> {
                     int duration = Toast.LENGTH_SHORT;
                     Toast toast = Toast.makeText(context, s, duration);
                     toast.show();
+                    DBHandler db = new DBHandler(context);
                     if(chk.isChecked()) {
                         //
                         //TODO: Chris, add to database here
                         //
+                        db.insertFavouritesItem(w);
                     } else {
                         //
                         //TODO: Chris, delete from database here
                         //
+                        db.deleteFavouritesItem(w);
                     }
                 }
             });
