@@ -301,6 +301,10 @@ public class MainActivity extends AppCompatActivity implements
 
         retrofitclear();
 
+        //
+        // TODO: Chris, if days menu is not on cache
+        //
+
         int j = 0;
         for (String a : ca) {
             int i = 0;
@@ -311,6 +315,9 @@ public class MainActivity extends AppCompatActivity implements
             }
             j++;
         }
+        //
+        // TODO: } else if it is then get it from the SQLite data base and set listdayalldiningmenu as it
+        //
     }
 
 
