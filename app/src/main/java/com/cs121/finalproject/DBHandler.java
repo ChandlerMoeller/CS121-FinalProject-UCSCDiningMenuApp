@@ -111,6 +111,7 @@ public class DBHandler extends SQLiteOpenHelper {
                         String nameWithoutSpaces = favitems.get(i).get(j).get(k).name.replaceAll("\\s+","");
                         if (nameWithoutSpaces.toLowerCase().equals(a.name.toLowerCase())) {
                             favhititems.get(i).get(j).add(favitems.get(i).get(j).get(k));
+                            Log.d("logging", ""+favhititems.get(i).get(j).get(0).name);
                         }
                     }
                 }

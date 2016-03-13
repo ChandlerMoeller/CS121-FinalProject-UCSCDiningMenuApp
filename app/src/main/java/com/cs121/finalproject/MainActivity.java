@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.app.SearchManager;
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements
     String pickedyear;
 
     MiddleFragment testfrag = new MiddleFragment();
+    MiddleFavFragment favfrag = new MiddleFavFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -286,7 +288,7 @@ public class MainActivity extends AppCompatActivity implements
                 case 0:
                     return testfrag;
                 case 1:
-                    return new ListFragment();
+                    return favfrag;
             }
             return new ByDiningHallFragment();
         }
@@ -408,6 +410,31 @@ public class MainActivity extends AppCompatActivity implements
                         //clear listdayalldiningmenu and retrofitcheck
 
                         //retrofitclear();
+
+
+
+
+                        //TODO: adapter
+                        String str = "db";
+                        int[] intarray = new int[15];
+                        for (int i = 0; i < intarray.length; i++) {
+                            intarray[i] = 1;
+                        }
+                        favfrag.MenusFavview(0, intarray, str);
+                        /*FragmentManager fragmentManager3 = getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction3 = fragmentManager3.beginTransaction();
+
+                        //ListFragment fragment3 = new ListFragment();
+                        String str = "l";
+                        int[] intarray = new int[15];
+                        for (int i = 0; i < intarray.length; i++) {
+                            intarray[i] = 1;
+                        }
+
+                        ListSearchFragment fragment3 = ListSearchFragment.newInstance(intarray, str);
+                        fragmentTransaction3.replace(R.id.searchListContainer, fragment3);
+                        fragmentTransaction3.addToBackStack("test");
+                        fragmentTransaction3.commit();*/
                     }
 
 
@@ -489,6 +516,14 @@ public class MainActivity extends AppCompatActivity implements
         //transaction.commit();
         int[] pass = whattodisplay(v.getTag().toString());
         testfrag.Menusview(3, pass, null);
+
+        //TODO:needed?
+        String str = "db";
+        int[] intarray = new int[15];
+        for (int i = 0; i < intarray.length; i++) {
+            intarray[i] = 1;
+        }
+        favfrag.MenusFavview(3,intarray, str);
 
 
         //testfrag.Menusview();

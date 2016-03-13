@@ -81,7 +81,14 @@ public class ListSearchFragment extends Fragment {
         // Inflate the layout for this fragment
         View l = inflater.inflate(R.layout.fragment_list, container, false);
 
-        allmenus = ((SearchableActivity) getActivity()).getsearchmenus();
+        if (mParam2.equals("db")) {
+            DBHandler db = new DBHandler(getContext());
+            allmenus = db.getFavouritesAsAllMenu();
+            Log.d("logging", "REACHED"+allmenus.get(0).get(0).get(0).name);
+        } else {
+            allmenus = ((SearchableActivity) getActivity()).getsearchmenus();
+            Log.d("logging", "other");
+        }
         adapt(l);
 
         return l;
