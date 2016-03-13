@@ -1,20 +1,14 @@
 package com.cs121.finalproject;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import com.cs121.finalproject.MenuItem;
 
 /**
  * Modified code by shobhit on 1/24/16.
@@ -49,7 +43,11 @@ public class ListAdapter extends ArrayAdapter<MenuItem> {
         String inflater = Context.LAYOUT_INFLATER_SERVICE;
         LayoutInflater vi = (LayoutInflater) getContext().getSystemService(inflater);
         //if (!client_userId.equals(itemname)) {
+        if(position == 0) {
+            vi.inflate(resource_dining_header, newView, true);
+        } else {
             vi.inflate(resource, newView, true);
+        }
         //} else {
             //vi.inflate(resource_meal_header, newView, true);
         //}
@@ -57,9 +55,14 @@ public class ListAdapter extends ArrayAdapter<MenuItem> {
 
         // Fills in the view.
         //TextView tv = (TextView) newView.findViewById(R.id.message_message);
-        TextView b = (TextView) newView.findViewById(R.id.message_nickname);
+        TextView b = (TextView) newView.findViewById(R.id.element_name);
         //tv.setText(w.name);
         b.setText(w.name);
+
+        if(position == 0) {
+            TextView c = (TextView) newView.findViewById(R.id.element_meal);
+            c.setText(w.allergens);
+        }
 
         // Sets a listener for the button, and a tag for the button as well.
         b.setTag(new Integer(position));

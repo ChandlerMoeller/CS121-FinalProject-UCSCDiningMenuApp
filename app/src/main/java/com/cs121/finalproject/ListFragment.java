@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,6 +89,8 @@ public class ListFragment extends Fragment {
 
     public void adapt(View l) {
         //allmenus = ((MainActivity) getActivity()).getmenus();
+        String namedininghall = " ";
+        String namemeal = " ";
 
         int howmanyadded = 1;
         if (mParam1 != null) {
@@ -98,36 +101,43 @@ public class ListFragment extends Fragment {
                     if (0 <= i && i <= 2) {
                         //Crown/Merrill
                         j = 0;
+                        namedininghall = "Crown/Merrill";
                     }
                     if (3 <= i && i <= 5) {
                         //Cowell/Stevenson
                         j = 1;
+                        namedininghall = "Cowell/Stevenson";
                     }
                     if (6 <= i && i <= 8) {
                         //Eight/Oakes
                         j = 2;
+                        namedininghall = "Eight/Oakes";
                     }
                     if (9 <= i && i <= 11) {
                         //Nine/Ten
                         j = 3;
+                        namedininghall = "Nine/Ten";
                     }
                     if (12 <= i && i <= 15) {
                         //PorterKresge
                         j = 4;
+                        namedininghall = "Porter/Kresge";
                     }
                     if ((i + 1) % 3 == 1) {
                         //Breakfast
                         k = 0;
+                        namemeal = "Breakfast";
                     }
                     if ((i + 1) % 3 == 2) {
                         //Lunch
                         k = 1;
+                        namemeal = "Lunch";
                     }
                     if ((i + 1) % 3 == 0) {
                         //Dinner
                         k = 2;
+                        namemeal = "Dinner";
                     }
-
 
                     //resultlist = allmenus.get(j).get(k);
                     List<MenuItem> resultlist = allmenus.get(j).get(k);
@@ -137,17 +147,9 @@ public class ListFragment extends Fragment {
                         switch (howmanyadded) {
                             case 1:
                                 scrollviewid = R.id.scrollview1;
-                                /*adapter1 = new ListAdapter(getContext(), R.layout.list_element, R.layout.list_meal_header, resultlist, R.layout.list_dining_header, "test");
-                                scrollview1 = (ListView) l.findViewById(scrollviewid);
-                                scrollview1.setAdapter(adapter1);
-                                adapter1.notifyDataSetChanged();*/
                                 break;
                             case 2:
                                 scrollviewid = R.id.scrollview2;
-                                /*adapter2 = new ListAdapter(getContext(), R.layout.list_element, R.layout.list_meal_header, resultlist, R.layout.list_dining_header, "test");
-                                scrollview2 = (ListView) l.findViewById(scrollviewid);
-                                scrollview2.setAdapter(adapter1);
-                                adapter1.notifyDataSetChanged();*/
                                 break;
                             case 3:
                                 scrollviewid = R.id.scrollview3;
@@ -163,8 +165,13 @@ public class ListFragment extends Fragment {
                                 break;
                         }
 
+                        MenuItem tmp = new MenuItem();
 
-                        Log.d("Testing", "j is: "+j);
+                        tmp.name = namedininghall;
+                        tmp.allergens = namemeal;
+                        resultlist.add(0, tmp);
+
+                        Log.d("Testing", "j is: " + j);
                         Log.d("Testing", "k is: " + k);
                         Log.d("Testing", "howmanyadded is: " + howmanyadded);
                         ListAdapter adapter2 = new ListAdapter(getContext(), R.layout.list_element, R.layout.list_meal_header, resultlist, R.layout.list_dining_header, "test");
@@ -175,7 +182,11 @@ public class ListFragment extends Fragment {
 
                         int howmanyitems = resultlist.size();
                         int howbig = howmanyitems * (int) getResources().getDimension(R.dimen.item_height);;
-                        Log.e("big", ""+howmanyitems);
+                        Log.d("big", "" + howmanyitems);
+
+
+                        TextView txt = (TextView)l.findViewById(R.id.listtextview);
+                        txt.setVisibility(l.GONE);
 
                         //Set the heigh programmatically
                         //

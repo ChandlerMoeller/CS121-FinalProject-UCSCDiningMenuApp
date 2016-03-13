@@ -1,9 +1,11 @@
 package com.cs121.finalproject;
 
 import android.content.ComponentName;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -77,11 +79,7 @@ public class MainActivity extends AppCompatActivity implements
     //----------------------------------------------------------------------------------------------
     private int numCachedMenus = 0;
     //----------------------------------------------------------------------------------------------
-    Fragment frag = new ByDiningHallFragment();
 
-    String currentday;
-    String currentmonth;
-    String currentyear;
     String pickedday;
     String pickedmonth;
     String pickedyear;
@@ -152,6 +150,14 @@ public class MainActivity extends AppCompatActivity implements
         pickedday = singleinttodoublestring(dayOfMonth);
         pickedmonth = singleinttodoublestring(monthOfYear);
         pickedyear = Integer.toString(year);
+        Log.d("DateSet", "day: " + pickedday+" month: "+pickedmonth);
+
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        if (settings.getBoolean("bydining", true)) {
+            testfrag.Menusview(0, null, null);
+        } else {
+            testfrag.Menusview(1, null, null);
+        }
 
         GetDaysMenusFromServer(pickedday, pickedmonth, pickedyear);
         //Log.d("lol", listdayalldiningmenu.get(3).get(2).get(0).name);
@@ -236,10 +242,18 @@ public class MainActivity extends AppCompatActivity implements
           //  return true;
         //}
         if (id == R.id.action_sort_bydining) {
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+            SharedPreferences.Editor e = settings.edit();
+            e.putBoolean("bydining", true);
+            e.commit();
             testfrag.Menusview(0, null, null);
             return true;
         }
         if (id == R.id.action_sort_bymeal) {
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+            SharedPreferences.Editor e = settings.edit();
+            e.putBoolean("bydining", false);
+            e.commit();
             testfrag.Menusview(1, null, null);
             return true;
         }

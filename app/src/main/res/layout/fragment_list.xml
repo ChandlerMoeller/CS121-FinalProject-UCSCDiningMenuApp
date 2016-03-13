@@ -4,198 +4,204 @@
     android:layout_height="match_parent"
     tools:context=".ListFragment">-->
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fillViewport="true">
+        android:orientation="vertical"
+        android:padding="0dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="0dp">
+            android:id="@+id/listtextview"
+            android:text="Nothing to Display"
+            android:layout_gravity="center_horizontal" />
 
-            <ListView
+        <ListView
             android:id="@+id/scrollview1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="0dp"
             android:layout_marginTop="0dp"
             android:background="#f9f9f9"
-            android:scrollbars="none"
+            android:dividerHeight="0dp"
 
-            android:dividerHeight="0dp"></ListView>
+            android:scrollbars="none"></ListView>
 
-            <ListView
-                android:id="@+id/scrollview2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
-                android:layout_marginTop="0dp"
-                android:background="#f9f9f9"
-                android:scrollbars="none"
+        <ListView
+            android:id="@+id/scrollview2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+            android:background="#f9f9f9"
+            android:dividerHeight="0dp"
 
-                android:dividerHeight="0dp"></ListView>
+            android:scrollbars="none"></ListView>
 
-            <ListView
-                android:id="@+id/scrollview3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
-                android:layout_marginTop="0dp"
-                android:background="#f9f9f9"
-                android:scrollbars="none"
+        <ListView
+            android:id="@+id/scrollview3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+            android:background="#f9f9f9"
+            android:dividerHeight="0dp"
 
-                android:dividerHeight="0dp"></ListView>
+            android:scrollbars="none"></ListView>
 
-            <ListView
-                android:id="@+id/scrollview4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
-                android:layout_marginTop="0dp"
-                android:background="#f9f9f9"
-                android:scrollbars="none"
+        <ListView
+            android:id="@+id/scrollview4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+            android:background="#f9f9f9"
+            android:dividerHeight="0dp"
 
-                android:dividerHeight="0dp"></ListView>
+            android:scrollbars="none"></ListView>
 
-            <ListView
-                android:id="@+id/scrollview5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
-                android:layout_marginTop="0dp"
-                android:background="#f9f9f9"
-                android:scrollbars="none"
+        <ListView
+            android:id="@+id/scrollview5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+            android:background="#f9f9f9"
+            android:dividerHeight="0dp"
 
-                android:dividerHeight="0dp">
+            android:scrollbars="none">
 
-            </ListView>
+        </ListView>
 
-            ////////
+        ////////
 
-            <ListView
-                android:id="@+id/scrollview6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
-                android:layout_marginTop="0dp"
-                android:background="#f9f9f9"
-                android:scrollbars="none"
+        <ListView
+            android:id="@+id/scrollview6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+            android:background="#f9f9f9"
+            android:dividerHeight="0dp"
 
-                android:dividerHeight="0dp"></ListView>
+            android:scrollbars="none"></ListView>
 
-            <ListView
-                android:id="@+id/scrollview7"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
-                android:layout_marginTop="0dp"
-                android:background="#f9f9f9"
-                android:scrollbars="none"
+        <ListView
+            android:id="@+id/scrollview7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+            android:background="#f9f9f9"
+            android:dividerHeight="0dp"
 
-                android:dividerHeight="0dp"></ListView>
+            android:scrollbars="none"></ListView>
 
-            <ListView
-                android:id="@+id/scrollview8"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
-                android:layout_marginTop="0dp"
-                android:background="#f9f9f9"
-                android:scrollbars="none"
+        <ListView
+            android:id="@+id/scrollview8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+            android:background="#f9f9f9"
+            android:dividerHeight="0dp"
 
-                android:dividerHeight="0dp"></ListView>
+            android:scrollbars="none"></ListView>
 
-            <ListView
-                android:id="@+id/scrollview9"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
-                android:layout_marginTop="0dp"
-                android:background="#f9f9f9"
-                android:scrollbars="none"
+        <ListView
+            android:id="@+id/scrollview9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+            android:background="#f9f9f9"
+            android:dividerHeight="0dp"
 
-                android:dividerHeight="0dp"></ListView>
+            android:scrollbars="none"></ListView>
 
-            <ListView
-                android:id="@+id/scrollview10"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
-                android:layout_marginTop="0dp"
-                android:background="#f9f9f9"
-                android:scrollbars="none"
+        <ListView
+            android:id="@+id/scrollview10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+            android:background="#f9f9f9"
+            android:dividerHeight="0dp"
 
-                android:dividerHeight="0dp">
+            android:scrollbars="none">
 
-            </ListView>
+        </ListView>
 
-            //////////
+        //////////
 
-            <ListView
-                android:id="@+id/scrollview11"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
-                android:layout_marginTop="0dp"
-                android:background="#f9f9f9"
-                android:scrollbars="none"
+        <ListView
+            android:id="@+id/scrollview11"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+            android:background="#f9f9f9"
+            android:dividerHeight="0dp"
 
-                android:dividerHeight="0dp"></ListView>
+            android:scrollbars="none"></ListView>
 
-            <ListView
-                android:id="@+id/scrollview12"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
-                android:layout_marginTop="0dp"
-                android:background="#f9f9f9"
-                android:scrollbars="none"
+        <ListView
+            android:id="@+id/scrollview12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+            android:background="#f9f9f9"
+            android:dividerHeight="0dp"
 
-                android:dividerHeight="0dp"></ListView>
+            android:scrollbars="none"></ListView>
 
-            <ListView
-                android:id="@+id/scrollview13"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
-                android:layout_marginTop="0dp"
-                android:background="#f9f9f9"
-                android:scrollbars="none"
+        <ListView
+            android:id="@+id/scrollview13"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+            android:background="#f9f9f9"
+            android:dividerHeight="0dp"
 
-                android:dividerHeight="0dp"></ListView>
+            android:scrollbars="none"></ListView>
 
-            <ListView
-                android:id="@+id/scrollview14"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
-                android:layout_marginTop="0dp"
-                android:background="#f9f9f9"
-                android:scrollbars="none"
+        <ListView
+            android:id="@+id/scrollview14"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+            android:background="#f9f9f9"
+            android:dividerHeight="0dp"
 
-                android:dividerHeight="0dp"></ListView>
+            android:scrollbars="none"></ListView>
 
-            <ListView
-                android:id="@+id/scrollview15"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
-                android:layout_marginTop="0dp"
-                android:background="#f9f9f9"
-                android:scrollbars="none"
+        <ListView
+            android:id="@+id/scrollview15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+            android:background="#f9f9f9"
+            android:dividerHeight="0dp"
 
-                android:dividerHeight="0dp">
+            android:scrollbars="none">
 
-            </ListView>
+        </ListView>
 
 
+    </LinearLayout>
 
-        </LinearLayout>
+</ScrollView>
 
-    </ScrollView>
-
-<!--</FrameLayout>-->
+    <!--</FrameLayout>-->
 
     <!--android:divider="@null"-->

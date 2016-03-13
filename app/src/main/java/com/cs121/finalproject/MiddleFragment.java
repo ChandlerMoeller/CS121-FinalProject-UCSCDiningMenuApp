@@ -1,7 +1,9 @@
 package com.cs121.finalproject;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -36,7 +38,14 @@ public class MiddleFragment extends Fragment {
         fragmentTransaction.commit();*/
 
         //This is the default page
-        Menusview(0, null, null);
+
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+        if (settings.getBoolean("bydining", true)) {
+            Menusview(0, null, null);
+        } else {
+            Menusview(1, null, null);
+        }
+
 
         return inflater.inflate(R.layout.fragment_middle, container, false);
     }

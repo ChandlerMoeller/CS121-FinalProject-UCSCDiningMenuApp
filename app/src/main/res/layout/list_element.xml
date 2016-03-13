@@ -16,7 +16,7 @@
         android:text=""
         android:layout_gravity="right" />
     <TextView
-        android:id="@+id/message_nickname"
+        android:id="@+id/element_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left|center_vertical"
