@@ -108,8 +108,8 @@ public class DBHandler extends SQLiteOpenHelper {
             for (int i = 0; i <= 4; i++) {
                 for (int j = 0; j <= 2; j++) {
                     for (int k = 0; k <= favitems.get(i).get(j).size() - 1; k++) {
-                        String nameWithoutSpaces = favitems.get(i).get(j).get(k).name.replaceAll("\\s+","");
-                        if (nameWithoutSpaces.toLowerCase().equals(a.name.toLowerCase())) {
+                        //String nameWithoutSpaces = favitems.get(i).get(j).get(k).name.replaceAll("\\s+","");
+                        if (/*nameWithoutSpaces*/favitems.get(i).get(j).get(k).name.toLowerCase().equals(a.name.toLowerCase())) {
                             favhititems.get(i).get(j).add(favitems.get(i).get(j).get(k));
                             Log.d("logging", ""+favhititems.get(i).get(j).get(0).name);
                         }
