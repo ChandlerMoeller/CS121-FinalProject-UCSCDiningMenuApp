@@ -2,7 +2,6 @@ package com.cs121.finalproject;
 
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -18,11 +17,10 @@ import android.view.View;
 
 import android.widget.Toast;
 
-import org.joda.time.DateTime;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -35,7 +33,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment;
-import com.codetroopers.betterpickers.datepicker.DatePickerDialogFragment;
 
 public class MainActivity extends AppCompatActivity implements
         CalendarDatePickerDialogFragment.OnDateSetListener {
@@ -57,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements
     Retrofit retrofit;
     private List<MenuItem> listmenu;
     private ArrayList<List<MenuItem>> listdaydiningmenu = new ArrayList<List<MenuItem>>(3);
-    private ArrayList<ArrayList<List<MenuItem>>> listdayalldiningmenu = new ArrayList<ArrayList<List<MenuItem>>>(5);
+    public ArrayList<ArrayList<List<MenuItem>>> listdayalldiningmenu = new ArrayList<ArrayList<List<MenuItem>>>(5);
     private int[][] retrofitcheck = new int[5][3];
 
     private String name;
@@ -65,7 +62,15 @@ public class MainActivity extends AppCompatActivity implements
     private List<String> tags;
     private String ingredients;
     private String allergens;
-    Fragment frag = new ByDiningHallFragment();
+
+    String currentday;
+    String currentmonth;
+    String currentyear;
+    String pickedday;
+    String pickedmonth;
+    String pickedyear;
+
+    MiddleFragment testfrag = new MiddleFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +78,12 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
 
         retrofitclear();
+
+        Calendar c = Calendar.getInstance(TimeZone.getDefault());
+        pickedday = singleinttodoublestring(c.get(Calendar.DAY_OF_MONTH));
+        pickedmonth = singleinttodoublestring(c.get(Calendar.MONTH)+1);
+        pickedyear = Integer.toString(c.get(Calendar.YEAR));
+        Log.d("lol", pickedmonth);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -104,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements
         //End of Retrofit stuff
 
         //Get data on startup
-        GetDaysMenusFromServer("11", "03", "2016");
+        GetDaysMenusFromServer(pickedday, pickedmonth, pickedyear);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +125,6 @@ public class MainActivity extends AppCompatActivity implements
                         .setOnDateSetListener(MainActivity.this);
                 cdp.show(getSupportFragmentManager(), "fragment_date_picker_name");
 
-                GetDaysMenusFromServer("11", "03", "2016");
             }
         });
 
@@ -123,7 +133,19 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onDateSet(CalendarDatePickerDialogFragment dialog, int year, int monthOfYear, int dayOfMonth) {
         //mResultTextView.setText(getString(R.string.calendar_date_picker_result_values, year, monthOfYear, dayOfMonth));
+        pickedday = singleinttodoublestring(dayOfMonth);
+        pickedmonth = singleinttodoublestring(monthOfYear);
+        pickedyear = Integer.toString(year);
 
+        GetDaysMenusFromServer(pickedday, pickedmonth, pickedyear);
+        //Log.d("lol", listdayalldiningmenu.get(3).get(2).get(0).name);
+    }
+
+    String singleinttodoublestring(int integer) {
+        if (integer < 10) {
+            return ("0" + Integer.toString(integer));
+        }
+        return Integer.toString(integer);
     }
 
     @Override
@@ -157,13 +179,11 @@ public class MainActivity extends AppCompatActivity implements
             return true;
         }
         if (id == R.id.action_sort_bydining) {
+            testfrag.Menusview(0);
             return true;
         }
         if (id == R.id.action_sort_bymeal) {
-
-//            Intent intent2 = new Intent(this, MainActivity.class);
-//            startActivity(intent2);
-
+            testfrag.Menusview(1);
             return true;
         }
         if (id == R.id.action_search) {
@@ -189,12 +209,13 @@ public class MainActivity extends AppCompatActivity implements
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    return new ByDiningHallFragment();
+                    return testfrag;
                 case 1:
-                    return new ByDiningHallFragment();
+                    return new ListFragment();
             }
             return new ByDiningHallFragment();
         }
+
 
         @Override
         public int getCount() {
@@ -218,11 +239,9 @@ public class MainActivity extends AppCompatActivity implements
         String[] ca = {"CM", "CS", "EO", "NT", "PK"};
         String[] meal = {"BR", "LU", "DI"};
 
-        ArrayList<List<MenuItem>> locallistdaydiningmenu = new ArrayList<List<MenuItem>>(3);
-        ArrayList<ArrayList<List<MenuItem>>> locallistdayalldiningmenu = new ArrayList<ArrayList<List<MenuItem>>>(5);
+        retrofitclear();
 
         int j = 0;
-
         for (String a : ca) {
             int i = 0;
             for (String b : meal) {
@@ -251,9 +270,9 @@ public class MainActivity extends AppCompatActivity implements
                 //View parentView = findViewById(R.id.mainrelativelayout);
                 if (response.body().isEmpty()) {
                     //Snackbar for Server Error
-                    Toast toast = Toast.makeText(MainActivity.this, "Server Error", Toast.LENGTH_LONG);
+                    /*Toast toast = Toast.makeText(MainActivity.this, "Server Error", Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.TOP, 0, 0);
-                    toast.show();
+                    toast.show();*/
                     return;
                 }
                 if (!response.body().isEmpty()) {
@@ -287,7 +306,8 @@ public class MainActivity extends AppCompatActivity implements
                         //------------------------------------------------------------------------------
 
                         //clear listdayalldiningmenu and retrofitcheck
-                        retrofitclear();
+
+                        //retrofitclear();
                     }
 
 
@@ -343,8 +363,8 @@ public class MainActivity extends AppCompatActivity implements
             v.add(listmenu);
         }
 
-        for (int i=0; i<5; i++) {
-            for (int j=0; j<3; j++) {
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 3; j++) {
                 retrofitcheck[i][j] = 0;
             }
         }
@@ -354,4 +374,29 @@ public class MainActivity extends AppCompatActivity implements
         @GET("menuoutputdetailed/{url}")
         Call<List<MenuItem>> getMenus(@Path("url") String url);
     }
+
+    public void test(View v) {
+        Log.e("test", "test");
+        //mSectionsPagerAdapter.getItem(0);
+        //Fragment newFragment = new ListFragment();
+        //android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+// Replace whatever is in the fragment_container view with this fragment,
+// and add the transaction to the back stack if needed
+        //transaction.replace(R.id.container, newFragment);
+        //transaction.addToBackStack(null);
+// Commit the transaction
+        //transaction.commit();
+        testfrag.Menusview(3);
+
+
+        //testfrag.Menusview();
+        //mSectionsPagerAdapter.notifyDataSetChanged();
+    }
+
+    ArrayList<ArrayList<List<MenuItem>>> getmenus() {
+        return listdayalldiningmenu;
+    }
+
+
 }
