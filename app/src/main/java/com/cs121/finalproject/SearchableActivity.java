@@ -19,7 +19,10 @@ import java.util.List;
 
 public class SearchableActivity extends android.support.v4.app.FragmentActivity {
 
+
+    private pickedDate passDateToSearchActivity = pickedDate.getPickedDate();
     DBHandler db = new DBHandler(this);
+
     ArrayList<ArrayList<List<MenuItem>>> cacheHitItems = new ArrayList<>(5);
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,7 +44,7 @@ public class SearchableActivity extends android.support.v4.app.FragmentActivity 
             searchExplanationText.setText("Dining Halls which are currently serving "+ query.toUpperCase() +":");
             ArrayList<ArrayList<List<MenuItem>>> cacheitems;
             String ayy = "";
-
+            String currentDate = passDateToSearchActivity.getDate();
             //ArrayList<ArrayList<List<MenuItem>>> cacheHitItems = new ArrayList<>(5);
             cacheHitItems.add(new ArrayList<List<MenuItem>>(3));
             cacheHitItems.add(new ArrayList<List<MenuItem>>(3));
@@ -53,16 +56,16 @@ public class SearchableActivity extends android.support.v4.app.FragmentActivity 
                 v.add(new ArrayList<MenuItem>());
                 v.add(new ArrayList<MenuItem>());
             }
-            cacheitems = db.getCacheOneItems().get(1);
+            //cacheitems = db.getCacheOneItems().get(1);
+            if(db.searchCacheForDate(currentDate) != null) {
+                cacheitems = db.searchCacheForDate(currentDate);
+            }else{
+                cacheitems = db.getCacheOneItems().get(0);
+            }
             for(int i = 0; i <= 4; i++){
                 for(int j = 0; j <= 2; j++){
                   for(int k = 0; k<= cacheitems.get(i).get(j).size()-1; k++) {
                       if (cacheitems.get(i).get(j).get(k).name.toLowerCase().equals(query.toLowerCase())) {
-
-                          //display dining hall at the top
-                          //diplay meal (i.e. breakfast, lunch, or dinner) next
-
-                          //display other dining halls that have the food
 
                          cacheHitItems.get(i).get(j).add(cacheitems.get(i).get(j).get(k));
                           /*for(MenuItem x : cacheHitItems.get(i).get(j)){

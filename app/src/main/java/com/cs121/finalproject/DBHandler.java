@@ -36,6 +36,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public static final String COLUMN_DININGITEM = "DiningItem";
     public static final String MENUITEM_ID = "MenuItemID";
     public static final String CACHE_ID = "CacheID";
+    public static final String CACHE_DMY = "CacheDayMonthYear";
 
     public DBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -108,13 +109,14 @@ public class DBHandler extends SQLiteOpenHelper {
     //----------------------------------------------------------------------------------------------
 
     //-----------------------------cache one DB-----------------------------------------------------
-    public void insertCacheOneItem(ArrayList<ArrayList<List<MenuItem>>> allDHAllMeals) {
+    public void insertCacheOneItem(ArrayList<ArrayList<List<MenuItem>>> allDHAllMeals, String dayMonthYear) {
 
         ContentValues values = new ContentValues();
         Gson gson = new Gson();
         values.put(COLUMN_DININGITEM, gson.toJson(allDHAllMeals).getBytes());
         String cacheNum = ""+cachedMenuNum;
         values.put(CACHE_ID,cacheNum);
+        values.put(CACHE_DMY,dayMonthYear);
         //String nameWithoutSpaces = allDHAllMeals.get(0).get(0).get(0).name.replaceAll("\\s+","");
         //values.put(MENUITEM_ID, nameWithoutSpaces);
 
@@ -145,6 +147,27 @@ public class DBHandler extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return cacheitems;
+    }
+
+    public ArrayList<ArrayList<List<MenuItem>>> searchCacheForDate(String dayMonthYear){
+        String query = "Select * FROM " + TABLE_CACHEONE + " WHERE " + CACHE_DMY + " =  \"" + dayMonthYear + "\"";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            byte[] blob = cursor.getBlob(cursor.getColumnIndex(COLUMN_DININGITEM));
+            String json = new String(blob);
+            Gson gson = new Gson();
+            ArrayList<ArrayList<List<MenuItem>>> cacheitem = gson.fromJson(json, new TypeToken<ArrayList<ArrayList<List<MenuItem>>>>() {}.getType());
+            cursor.close();
+            db.close();
+            return cacheitem;
+        } else {
+            cursor.close();
+            db.close();
+            return null;
+        }
     }
 
     public void deleteCacheOneItem(/*ArrayList<ArrayList<List<MenuItem>>> exAllDHAllMeals*/) {
@@ -203,7 +226,8 @@ public class DBHandler extends SQLiteOpenHelper {
                 + " TEXT," + MENUITEM_ID + " TEXT" + ")";
 
         String CREATE_CACHEONE_TABLE = "CREATE TABLE "
-                + TABLE_CACHEONE + "(" + COLUMN_DININGITEM + " TEXT," + CACHE_ID + " TEXT" + ")";
+                + TABLE_CACHEONE + "(" + COLUMN_DININGITEM + " TEXT," + CACHE_ID + " TEXT," +
+                CACHE_DMY+ " TEXT" +")";
 
         String CREATE_CACHETWO_TABLE = "CREATE TABLE "
                 + TABLE_CACHETWO + "(" + COLUMN_DININGITEM + "TEXT" + ")";

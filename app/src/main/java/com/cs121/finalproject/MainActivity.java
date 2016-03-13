@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements
     private ArrayList<List<MenuItem>> listdaydiningmenu = new ArrayList<List<MenuItem>>(3);
     public ArrayList<ArrayList<List<MenuItem>>> listdayalldiningmenu = new ArrayList<ArrayList<List<MenuItem>>>(5);
     private int[][] retrofitcheck = new int[5][3];
+    private pickedDate passDateToSearchActivity = pickedDate.getPickedDate();
 
     private String name;
     private String url;
@@ -318,16 +319,21 @@ public class MainActivity extends AppCompatActivity implements
         //
         // TODO: Chris, if days menu is not on cache
         //
-
-        int j = 0;
-        for (String a : ca) {
-            int i = 0;
-            for (String b : meal) {
-                String url = "jmenu_" + month + "_" + day + "_" + year + "_" + a + "_" + b + ".json";
-                getjsonfromurl(retrofit, url, i, j);
-                i++;
+        DBHandler db = new DBHandler(getApplicationContext());
+        String dayMonthYear = day + "-" + month + "-" + year;
+        if(db.searchCacheForDate(dayMonthYear) == null) {
+            int j = 0;
+            for (String a : ca) {
+                int i = 0;
+                for (String b : meal) {
+                    String url = "jmenu_" + month + "_" + day + "_" + year + "_" + a + "_" + b + ".json";
+                    getjsonfromurl(retrofit, url, i, j);
+                    i++;
+                }
+                j++;
             }
-            j++;
+        }else{
+            listdayalldiningmenu = db.searchCacheForDate(dayMonthYear);
         }
         //
         // TODO: } else if it is then get it from the SQLite data base and set listdayalldiningmenu as it
@@ -377,12 +383,15 @@ public class MainActivity extends AppCompatActivity implements
                         //------------------------------------------------------------------------------
                         //passedMenuList.setMenuList(response.body());
 
+                        String dayMonthYear = pickedday + "-" + pickedmonth + "-" + pickedyear;
                         DBHandler db = new DBHandler(getApplicationContext());
                         if(numCachedMenus < 2) {
-                            db.insertCacheOneItem(listdayalldiningmenu);
+                            db.insertCacheOneItem(listdayalldiningmenu, dayMonthYear);
+                            passDateToSearchActivity.setDate(dayMonthYear);
                             numCachedMenus++;
                         }else {
-                            db.insertCacheOneItem(listdayalldiningmenu);
+                            db.insertCacheOneItem(listdayalldiningmenu, dayMonthYear);
+                            passDateToSearchActivity.setDate(dayMonthYear);
                             db.deleteCacheOneItem();
                         }
                         //Toast toast2 = Toast.makeText(MainActivity.this, db.getCacheOneItems().get(1).get(2).get(0).name, Toast.LENGTH_LONG);
