@@ -19,7 +19,6 @@ import java.util.List;
 public class SearchableActivity extends Activity {
 
     DBHandler db = new DBHandler(this);
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +38,19 @@ public class SearchableActivity extends Activity {
             TextView searchExplanationText = (TextView) findViewById(R.id.searchTextView);
             searchExplanationText.setText("Dining Halls which are currently serving "+ query.toUpperCase() +":");
             ArrayList<ArrayList<List<MenuItem>>> cacheitems;
+            String ayy = "";
+
+            ArrayList<ArrayList<List<MenuItem>>> cacheHitItems = new ArrayList<>(5);
+            cacheHitItems.add(new ArrayList<List<MenuItem>>(3));
+            cacheHitItems.add(new ArrayList<List<MenuItem>>(3));
+            cacheHitItems.add(new ArrayList<List<MenuItem>>(3));
+            cacheHitItems.add(new ArrayList<List<MenuItem>>(3));
+            cacheHitItems.add(new ArrayList<List<MenuItem>>(3));
+            for (ArrayList<List<MenuItem>> v : cacheHitItems) {
+                v.add(new ArrayList<MenuItem>());
+                v.add(new ArrayList<MenuItem>());
+                v.add(new ArrayList<MenuItem>());
+            }
             cacheitems = db.getCacheOneItems().get(1);
             for(int i = 0; i <= 4; i++){
                 for(int j = 0; j <= 2; j++){
@@ -50,15 +62,35 @@ public class SearchableActivity extends Activity {
 
                           //display other dining halls that have the food
 
+                         cacheHitItems.get(i).get(j).add(cacheitems.get(i).get(j).get(k));
+                          for(MenuItem x : cacheHitItems.get(i).get(j)){
+                            if(i == 0) {
+                              x.name = "Crown/Merrill during";
+                            }else if(i == 1){
+                                x.name = "Cowell/Stevenson during";
+                            }else if(i == 2){
+                                x.name = "Eight/Oakes during";
+                            }else if(i == 3){
+                                x.name = "Nine/Ten during";
+                            }else if(i == 4){
+                                x.name = "Porter/Kresge during";
+                            }
 
-
-                          //MiddleFragment testfrag = new MiddleFragment();
-                          //testfrag.Menusview(3);
-
+                              if(j == 0){
+                                  x.name += " Breakfast";
+                              }else if(j == 1){
+                                  x.name += " Lunch";
+                              }else if(j == 2){
+                                  x.name += " Dinner";
+                              }
+                          }
+                          ayy +=cacheHitItems.get(i).get(j).get(0).name+"\n";
                       }
                   }
                 }
             }
+
+            //searchExplanationText.setText(ayy);
         }
     }
 
