@@ -3,8 +3,6 @@ package com.cs121.finalproject;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +24,7 @@ public class ListFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
+    private int[] mParam1;
     private String mParam2;
 
 
@@ -49,10 +47,10 @@ public class ListFragment extends Fragment {
      * @return A new instance of fragment ListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ListFragment newInstance(String param1, String param2) {
+    public static ListFragment newInstance(int[] param1, String param2) {
         ListFragment fragment = new ListFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        args.putIntArray(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
@@ -62,7 +60,7 @@ public class ListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam1 = getArguments().getIntArray(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
@@ -74,18 +72,19 @@ public class ListFragment extends Fragment {
         // Inflate the layout for this fragment
         View l = inflater.inflate(R.layout.fragment_list, container, false);
 
+        allmenus = ((MainActivity) getActivity()).getmenus();
         adapt(l);
 
         return l;
     }
 
     public void adapt(View l) {
-        allmenus = ((MainActivity) getActivity()).getmenus();
+        //allmenus = ((MainActivity) getActivity()).getmenus();
         resultlist = allmenus.get(3).get(2);
 
         if (resultlist != null) {
             adapter2 = new ListAdapter(getContext(), R.layout.list_element, R.layout.list_meal_header, allmenus.get(3).get(2), R.layout.list_dining_header, "test");
-            scrollview = (ListView) l.findViewById(R.id.scrollview);
+            scrollview = (ListView) l.findViewById(R.id.scrollview1);
             scrollview.setAdapter(adapter2);
             adapter2.notifyDataSetChanged();
         }

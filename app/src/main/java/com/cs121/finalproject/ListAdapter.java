@@ -51,9 +51,9 @@ public class ListAdapter extends ArrayAdapter<MenuItem> {
         //if (!client_userId.equals(itemname)) {
             vi.inflate(resource, newView, true);
         //} else {
-            vi.inflate(resource_meal_header, newView, true);
+            //vi.inflate(resource_meal_header, newView, true);
         //}
-        vi.inflate(resource_dining_header, newView, true);
+        //vi.inflate(resource_dining_header, newView, true);
 
         // Fills in the view.
         //TextView tv = (TextView) newView.findViewById(R.id.message_message);
