@@ -203,11 +203,13 @@ public class ListSearchFragment extends Fragment {
                                     break;
                             }
 
-                            MenuItem tmp = new MenuItem();
+                            if (!resultlist.get(0).name.equals(namedininghall)) {
+                                MenuItem tmp = new MenuItem();
 
-                            tmp.name = namedininghall;
-                            tmp.allergens = namemeal;
-                            resultlist.add(0, tmp);
+                                tmp.name = namedininghall;
+                                tmp.allergens = namemeal;
+                                resultlist.add(0, tmp);
+                            }
 
                             Log.d("Testing", "j is: " + j);
                             Log.d("Testing", "k is: " + k);

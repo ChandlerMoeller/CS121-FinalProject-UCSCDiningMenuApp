@@ -358,14 +358,15 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onResponse(Response<List<MenuItem>> response) {
                 //View parentView = findViewById(R.id.mainrelativelayout);
-                if (response.body().isEmpty()) {
+                /*if (response.body().isEmpty()) {
                     //Snackbar for Server Error
-                    /*Toast toast = Toast.makeText(MainActivity.this, "Server Error", Toast.LENGTH_LONG);
+                    *//*Toast toast = Toast.makeText(MainActivity.this, "Server Error", Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.TOP, 0, 0);
-                    toast.show();*/
+                    toast.show();*//*
+                    Log.d("Retrofit", "Called3");
                     return;
-                }
-                if (!response.body().isEmpty()) {
+                }*/
+                //if (!response.body().isEmpty()) {
                     //Toast for on success
                     /*Toast toast = Toast.makeText(MainActivity.this, "Content Refreshed", Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.TOP, 0, 0);
@@ -378,6 +379,7 @@ public class MainActivity extends AppCompatActivity implements
                     retrofitcheck[j][i] = 1;
 
                     if (isretrofitdone()) {
+                        Log.d("Retrofit", "Called");
                         //
                         //ADD TO DATABASE HERE
                         //
@@ -447,13 +449,13 @@ public class MainActivity extends AppCompatActivity implements
                     scrollview.setAdapter(adapter2);
                     adapter2.notifyDataSetChanged();*/
 
-                } else {
+                /*} else {
                     //Snackbar for Other Error
                     Toast toast = Toast.makeText(MainActivity.this, "Other", Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.TOP, 0, 0);
                     toast.show();
                     return;
-                }
+                }*/
             }
 
             @Override
@@ -526,7 +528,7 @@ public class MainActivity extends AppCompatActivity implements
         for (int i = 0; i < intarray.length; i++) {
             intarray[i] = 1;
         }
-        favfrag.MenusFavview(0,intarray, str);
+        //favfrag.MenusFavview(0,intarray, str);
 
 
         //testfrag.Menusview();
