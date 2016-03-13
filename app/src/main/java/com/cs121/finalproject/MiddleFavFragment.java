@@ -39,14 +39,6 @@ public class MiddleFavFragment extends Fragment {
 
         //This is the default page
         //ListFragment fragment3 = new ListFragment();
-        String str = "db";
-        int[] intarray = new int[15];
-        for (int i = 0; i < intarray.length; i++) {
-            intarray[i] = 1;
-        }
-
-        //MenusFavview(0, intarray, str);
-
 
         return inflater.inflate(R.layout.fragment_fav_middle, container, false);
     }
@@ -58,9 +50,9 @@ public class MiddleFavFragment extends Fragment {
                 FragmentTransaction fragmentTransaction3 = fragmentManager3.beginTransaction();
 
                 //ListFragment fragment3 = new ListFragment();
-                ListSearchFragment fragment3 = ListSearchFragment.newInstance(intarray, str);
+                ListFavFragment fragment3 = ListFavFragment.newInstance(intarray, str);
                 fragmentTransaction3.replace(R.id.favfrag, fragment3);
-                fragmentTransaction3.addToBackStack("test");
+                //fragmentTransaction3.addToBackStack("test");
                 fragmentTransaction3.commit();
                 break;
         }

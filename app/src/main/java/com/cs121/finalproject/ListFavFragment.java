@@ -16,10 +16,10 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ListSearchFragment#newInstance} factory method to
+ * Use the {@link ListFavFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListSearchFragment extends Fragment {
+public class ListFavFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -43,7 +43,7 @@ public class ListSearchFragment extends Fragment {
     ;
 
 
-    public ListSearchFragment() {
+    public ListFavFragment() {
         // Required empty public constructor
     }
 
@@ -56,8 +56,8 @@ public class ListSearchFragment extends Fragment {
      * @return A new instance of fragment ListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ListSearchFragment newInstance(int[] param1, String param2) {
-        ListSearchFragment fragment = new ListSearchFragment();
+    public static ListFavFragment newInstance(int[] param1, String param2) {
+        ListFavFragment fragment = new ListFavFragment();
         Bundle args = new Bundle();
         args.putIntArray(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -81,13 +81,14 @@ public class ListSearchFragment extends Fragment {
         // Inflate the layout for this fragment
         View l = inflater.inflate(R.layout.fragment_list, container, false);
 
-        /*if (mParam2.equals("db")) {
+        //if (mParam2.equals("db")) {
             DBHandler db = new DBHandler(getContext());
-            allmenus = db.getFavouritesAsAllMenu();
-            Log.d("logging", "REACHED"+allmenus.get(0).get(0).get(0).name);
-        } else {*/
-            allmenus = ((SearchableActivity) getActivity()).getsearchmenus();
-            Log.d("logging", "other");
+        //    allmenus = db.getFavouritesAsAllMenu();
+        allmenus = ((MainActivity) getActivity()).getfavmenus();
+            //Log.d("logging", "REACHED"+allmenus.get(0).get(0).get(0).name);
+        //} else {*/
+/*            allmenus = ((SearchableActivity) getActivity()).getsearchmenus();
+            Log.d("logging", "other");*/
         //}
         adapt(l);
 
@@ -227,7 +228,7 @@ public class ListSearchFragment extends Fragment {
                             TextView txt = (TextView) l.findViewById(R.id.listtextview);
                             txt.setVisibility(l.GONE);
 
-                            //Set the heigh programmatically
+                            //Set the height programmatically
                             //
                             //Used ideas from http://stackoverflow.com/questions/7441696/how-to-change-list-views-height-progmmatically
                             //

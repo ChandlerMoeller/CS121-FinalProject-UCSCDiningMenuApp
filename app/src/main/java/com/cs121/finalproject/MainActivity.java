@@ -329,7 +329,7 @@ public class MainActivity extends AppCompatActivity implements
                 int i = 0;
                 for (String b : meal) {
                     String url = "jmenu_" + month + "_" + day + "_" + year + "_" + a + "_" + b + ".json";
-                    getjsonfromurl(retrofit, url, i, j);
+                    getjsonfromurl(retrofit, url, i, j, dayMonthYear);
                     i++;
                 }
                 j++;
@@ -344,8 +344,9 @@ public class MainActivity extends AppCompatActivity implements
 
 
     //This function is called when refreshing
-    public void getjsonfromurl(Retrofit retrofit, String url, final int i, final int j) {
+    public void getjsonfromurl(Retrofit retrofit, String url, final int i, final int j, String dayMonthYear2) {
         GetJson service = retrofit.create(GetJson.class);
+        final String dayMonthYear = dayMonthYear2;
 
         //Retrofit stuff
         Call<List<MenuItem>> queryResponseCall =
@@ -385,7 +386,7 @@ public class MainActivity extends AppCompatActivity implements
                         //------------------------------------------------------------------------------
                         //passedMenuList.setMenuList(response.body());
 
-                        String dayMonthYear = pickedday + "-" + pickedmonth + "-" + pickedyear;
+                        //String dayMonthYear = pickedday + "-" + pickedmonth + "-" + pickedyear;
                         DBHandler db = new DBHandler(getApplicationContext());
                         if(numCachedMenus < 2) {
                             db.insertCacheOneItem(listdayalldiningmenu, dayMonthYear);
@@ -421,6 +422,8 @@ public class MainActivity extends AppCompatActivity implements
                             intarray[i] = 1;
                         }
                         favfrag.MenusFavview(0, intarray, str);
+
+
                         /*FragmentManager fragmentManager3 = getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction3 = fragmentManager3.beginTransaction();
 
@@ -523,7 +526,7 @@ public class MainActivity extends AppCompatActivity implements
         for (int i = 0; i < intarray.length; i++) {
             intarray[i] = 1;
         }
-        favfrag.MenusFavview(3,intarray, str);
+        favfrag.MenusFavview(0,intarray, str);
 
 
         //testfrag.Menusview();
@@ -532,6 +535,13 @@ public class MainActivity extends AppCompatActivity implements
 
     ArrayList<ArrayList<List<MenuItem>>> getmenus() {
         return listdayalldiningmenu;
+    }
+
+    ArrayList<ArrayList<List<MenuItem>>> getfavmenus() {
+        DBHandler db = new DBHandler(this);
+        //TODO, Chris, look at this this
+        return listdayalldiningmenu;
+        //return db.getFavouritesAsAllMenu();
     }
 
 
