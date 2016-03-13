@@ -2,12 +2,63 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:grid="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="60dp"
     tools:context="com.cs121.finalproject.ByMealFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.v7.widget.GridLayout
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:id="@+id/by_dining_hall_gridlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="by meal" />
+        android:layout_centerHorizontal="true"
+        android:padding="4dp"
+
+        grid:alignmentMode="alignBounds"
+        grid:columnCount="2"
+        grid:rowCount="2"
+        grid:rowOrderPreserved="false"
+        grid:useDefaultMargins="true">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/button6"
+            grid:layout_columnWeight="1"
+            grid:layout_rowWeight="1"
+            grid:layout_gravity="fill"
+            grid:layout_columnSpan="2"
+            android:gravity="center"
+            android:background="#FF33B5E5"
+            android:text="Breakfast"
+            android:onClick="test"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/button7"
+            grid:layout_columnWeight="1"
+            grid:layout_rowWeight="1"
+            grid:layout_gravity="fill"
+            android:gravity="center"
+            android:background="#FF33B5E5"
+            grid:layout_columnSpan="2"
+            android:text="Lunch" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/button8"
+            grid:layout_columnWeight="1"
+            grid:layout_rowWeight="1"
+            grid:layout_gravity="fill"
+            android:gravity="center"
+            android:background="#FF33B5E5"
+            grid:layout_columnSpan="2"
+            android:text="Dinner" />
+
+    </android.support.v7.widget.GridLayout>
 
 </FrameLayout>

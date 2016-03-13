@@ -3,12 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:grid="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="60dp"
     tools:context="com.cs121.finalproject.ByDiningHallFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <android.support.v7.widget.GridLayout
         android:layout_marginTop="0dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="0dp"
         android:id="@+id/by_dining_hall_gridlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,17 +25,20 @@
         <Button
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:id="@+id/button1"
             grid:layout_columnWeight="1"
             grid:layout_rowWeight="1"
             grid:layout_gravity="fill"
             grid:layout_columnSpan="2"
             android:gravity="center"
             android:background="#FF33B5E5"
-            android:text="Crown//Merrill" />
+            android:text="Crown/Merrill"
+            android:onClick="test"/>
 
         <Button
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:id="@+id/button2"
             grid:layout_columnWeight="1"
             grid:layout_rowWeight="1"
             grid:layout_gravity="fill"
@@ -45,6 +49,7 @@
         <Button
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:id="@+id/button3"
             grid:layout_columnWeight="1"
             grid:layout_rowWeight="1"
             grid:layout_gravity="fill"
@@ -55,6 +60,7 @@
         <Button
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:id="@+id/button4"
             grid:layout_columnWeight="1"
             grid:layout_rowWeight="1"
             grid:layout_gravity="fill"
@@ -65,6 +71,7 @@
         <Button
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:id="@+id/button5"
             grid:layout_columnWeight="1"
             grid:layout_rowWeight="1"
             grid:layout_gravity="fill"
