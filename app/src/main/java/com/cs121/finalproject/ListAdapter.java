@@ -70,14 +70,13 @@ public class ListAdapter extends ArrayAdapter<MenuItem> {
             final CheckBox chk = (CheckBox) newView.findViewById(R.id.checkBox);
 
             //
-            //TODO: Check if item is in database already
+            //TODO: Chris, Check if item is in database already
             //if it is in it, then set chk.setChecked(true);
             //
 
 
             // Sets a listener for the button, and a tag for the button as well.
             chk.setTag(new Integer(position));
-            //TODO: if favoite add favorite tag
             chk.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -102,7 +101,6 @@ public class ListAdapter extends ArrayAdapter<MenuItem> {
 
         // Set a listener for the whole list item.
         newView.setTag(R.string.one, w.name);
-        //TODO: if favoite add favorite tag
 
         //newView.setTag(R.string.two, w.nickname);
         newView.setOnClickListener(new View.OnClickListener() {
