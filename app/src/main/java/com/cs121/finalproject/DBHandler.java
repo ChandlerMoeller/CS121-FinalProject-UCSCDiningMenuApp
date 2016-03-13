@@ -16,7 +16,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class DBHandler extends SQLiteOpenHelper {
 
-    //private PassMenuListToDBHandler passedMenuList = PassMenuListToDBHandler.getPassMenuListToDBHandler();
+    int cachedMenuNum = 0;
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "DiningMenuDB.db";
@@ -26,6 +26,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public static final String COLUMN_DININGITEM = "DiningItem";
     public static final String MENUITEM_ID = "MenuItemID";
+    public static final String CACHE_ID = "CacheID";
 
     public DBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -105,12 +106,47 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         Gson gson = new Gson();
         values.put(COLUMN_DININGITEM, gson.toJson(allDHAllMeals).getBytes());
+        String cacheNum = ""+cachedMenuNum;
+        values.put(CACHE_ID,cacheNum);
+        //String nameWithoutSpaces = allDHAllMeals.get(0).get(0).get(0).name.replaceAll("\\s+","");
+        //values.put(MENUITEM_ID, nameWithoutSpaces);
 
         SQLiteDatabase db = this.getWritableDatabase();
         db.insert(TABLE_CACHEONE, null, values);
         db.close();
+        cachedMenuNum++;
     }
 
+    public ArrayList<ArrayList<List<MenuItem>>> getCacheOneItems() {
+        String selectQuery = "SELECT  * FROM " + TABLE_CACHEONE;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        ArrayList<ArrayList<List<MenuItem>>> cacheitems = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                byte[] blob = cursor.getBlob(cursor.getColumnIndex(COLUMN_DININGITEM));
+                String json = new String(blob);
+                Gson gson = new Gson();
+                cacheitems = gson.fromJson(json, new TypeToken<ArrayList<ArrayList<List<MenuItem>>>>() {}.getType());
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return cacheitems;
+    }
+
+    public void deleteCacheOneItem(/*ArrayList<ArrayList<List<MenuItem>>> exAllDHAllMeals*/) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Gson gson = new Gson();
+        db.delete(TABLE_CACHEONE, CACHE_ID + " = ?", new String[]{""+(cachedMenuNum-3)});
+        //String nameWithoutSpaces = exAllDHAllMeals.get(0).get(0).get(0).name.replaceAll("\\s+", "");
+        //db.delete(TABLE_CACHEONE, MENUITEM_ID + " = ?", new String[]{nameWithoutSpaces});
+        db.close();
+    }
 
     //----------------------------------------------------------------------------------------------
 
@@ -135,7 +171,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + " TEXT," + MENUITEM_ID + " TEXT" + ")";
 
         String CREATE_CACHEONE_TABLE = "CREATE TABLE "
-                + TABLE_CACHEONE + "(" + COLUMN_DININGITEM + "TEXT" + ")";
+                + TABLE_CACHEONE + "(" + COLUMN_DININGITEM + " TEXT," + CACHE_ID + " TEXT" + ")";
 
         String CREATE_CACHETWO_TABLE = "CREATE TABLE "
                 + TABLE_CACHETWO + "(" + COLUMN_DININGITEM + "TEXT" + ")";
