@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -59,27 +61,43 @@ public class ListAdapter extends ArrayAdapter<MenuItem> {
         //tv.setText(w.name);
         b.setText(w.name);
 
+
+
         if(position == 0) {
             TextView c = (TextView) newView.findViewById(R.id.element_meal);
             c.setText(w.allergens);
-        }
+        } else {
 
-        // Sets a listener for the button, and a tag for the button as well.
-        b.setTag(new Integer(position));
-        b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Reacts to a button press.
-                // Gets the integer tag of the button.
-/*                String s = v.getTag().toString();
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(context, s, duration);
-                toast.show();*/
-            }
-        });
+            final CheckBox chk = (CheckBox) newView.findViewById(R.id.checkBox);
+            // Sets a listener for the button, and a tag for the button as well.
+            chk.setTag(new Integer(position));
+            //TODO: if favoite add favorite tag
+            chk.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Reacts to a button press.
+                    // Gets the integer tag of the button.
+                    String s = v.getTag().toString();
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(context, s, duration);
+                    toast.show();
+                    if(chk.isChecked()) {
+                        //
+                        //TODO: Chris, add to database here
+                        //
+                    } else {
+                        //
+                        //TODO: Chris, delete from database here
+                        //
+                    }
+                }
+            });
+        }
 
         // Set a listener for the whole list item.
         newView.setTag(R.string.one, w.name);
+        //TODO: if favoite add favorite tag
+
         //newView.setTag(R.string.two, w.nickname);
         newView.setOnClickListener(new View.OnClickListener() {
             @Override
