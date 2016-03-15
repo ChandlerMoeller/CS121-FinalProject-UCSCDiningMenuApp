@@ -160,7 +160,12 @@ public class MainActivity extends AppCompatActivity implements
         } else if(settings.getBoolean("bymeal", true)) {
             testfrag.Menusview(1, null, null, null);
         } else if(settings.getBoolean("byfavorites", true)) {
-            testfrag.Menusview(3, null, null, null);
+            //
+            int[] intarray = new int[15];
+            for (int i = 0; i < intarray.length; i++) {
+                intarray[i] = 1;
+            }
+            testfrag.Menusview(3, intarray, "search", getfavmenus());
         }
 
         GetDaysMenusFromServer(pickedday, pickedmonth, pickedyear);

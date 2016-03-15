@@ -1,6 +1,7 @@
 package com.cs121.finalproject;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -40,6 +41,7 @@ public class ListFragment extends Fragment {
     ListAdapter adapter2;
     ListView scrollview2;
     List<MenuItem> resultlist2;
+    RecyclerviewAdapter radapter;
     /*ListAdapter adapter2;
     ListView scrollview;
     List<MenuItem> resultlist;*/
@@ -85,6 +87,7 @@ public class ListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View l = inflater.inflate(R.layout.fragment_list, container, false);
+        //////View l = inflater.inflate(R.layout.recyclerview, container, false);
 
         allmenus = mParam3;
         /*if(mParam2 == null) {
@@ -105,6 +108,11 @@ public class ListFragment extends Fragment {
 
         if(allmenus!=null) {
             adapt(l);
+
+            /*RecyclerviewAdapter radapter = new RecyclerviewAdapter(getContext(), mParam1, mParam2, 0, allmenus);
+            RecyclerView scrollview = (RecyclerView) l.findViewById(R.id.recyclerview);
+            scrollview.setAdapter(radapter);
+            radapter.notifyDataSetChanged();*/
         }
 
         return l;
