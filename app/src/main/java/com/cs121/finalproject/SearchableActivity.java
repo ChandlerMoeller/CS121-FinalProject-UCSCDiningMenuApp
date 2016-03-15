@@ -105,13 +105,13 @@ public class SearchableActivity extends android.support.v4.app.FragmentActivity 
             FragmentTransaction fragmentTransaction3 = fragmentManager3.beginTransaction();
 
             //ListFragment fragment3 = new ListFragment();
-            String str = "l";
+            String str = "search";
             int[] intarray = new int[15];
             for (int i = 0; i < intarray.length; i++) {
                 intarray[i] = 1;
             }
 
-            ListSearchFragment fragment3 = ListSearchFragment.newInstance(intarray, str);
+            ListFragment fragment3 = ListFragment.newInstance(intarray, str, cacheHitItems);
             fragmentTransaction3.replace(R.id.searchListContainer, fragment3);
             //fragmentTransaction3.addToBackStack("test");
             fragmentTransaction3.commit();

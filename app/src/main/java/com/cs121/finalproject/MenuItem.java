@@ -1,6 +1,7 @@
 
 package com.cs121.finalproject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 //@Generated("org.jsonschema2pojo")
-public class MenuItem {
+public class MenuItem implements Serializable {
 
     @SerializedName("name")
     @Expose

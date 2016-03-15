@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#8BC34A</color>
+    <color name="colorPrimaryDark">#689F38</color>
+    <color name="colorAccent">#FFEB3B</color>
+
+    //UCSC stuff
+    <color name="slug_yellow">#fff1b521</color>
+    <color name="slug_blue">#ff00458c</color>
+
+    <color name="dining_greenmain">#92b44f</color>
+    <color name="dining_greensubbar">#d6e4bd</color>
+    <color name="dining_greenlight">#e4ecd3</color>
+    <color name="dining_beigemenu">#fdf8dd</color>
 </resources>
+
+<!--
+<color name="colorPrimary">#3F51B5</color>
+<color name="colorPrimaryDark">#303F9F</color>
+<color name="colorAccent">#FF4081</color>-->

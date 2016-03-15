@@ -1,8 +1,13 @@
 package com.cs121.finalproject;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,43 +72,41 @@ public class ListAdapter extends ArrayAdapter<MenuItem> {
         b.setText(w.name);
 
         //Fixes the text output
-        /*if (w.name != null) {
+        if (w.name != null) {
+            fixedname = w.name;
             if (w.name.contains("&apos;")) {
-                fixedname = w.name.replace("&apos;", "'");
+                fixedname = fixedname.replace("&apos;", "'");
             }
             if (w.name.contains("&amp;")) {
-                fixedname = w.name.replace("&amp;", "&");
+                fixedname = fixedname.replace("&amp;", "&");
             }
             if (w.name.contains("&quot;")) {
-                fixedname = w.name.replace("&quot;", "\"");
+                fixedname = fixedname.replace("&quot;", "\"");
             }
 
             b.setText(fixedname);
 
             //if (element != null) {
-            if (w.name.equals("Farm Fridays")) {
+            if (fixedname.equals("Farm Fridays")) {
                 b.setTypeface(null, Typeface.BOLD);
                 b.setTextColor(Color.RED);
                 ////holder.LinearLayoutView.setBackgroundColor(ContextCompat.getColor(context, R.color.dining_greensubbar));
             }
-            if (w.name.equals("Healthy Mondays")) {
+            if (fixedname.equals("Healthy Mondays")) {
                 b.setTypeface(null, Typeface.BOLD);
                 b.setTextColor(Color.RED);
                 ////holder.LinearLayoutView.setBackgroundColor(ContextCompat.getColor(context, R.color.dining_greensubbar));
-            }
-            if (w.name.contains("BAR") || w.name.contains("Bar ") || w.name.endsWith("Bar")) {
-                //holder.textView.setTextColor(Color.YELLOW);
-                //TextView questionValue = (TextView) findViewById(R.layout.TextView01);
-                b.setTypeface(null, Typeface.BOLD);
             }
             //}
 
-        }*/
+        }
 
 
         if (position == 0) {
             TextView c = (TextView) newView.findViewById(R.id.element_meal);
             c.setText(w.allergens);
+            b.setTypeface(null, Typeface.BOLD);
+            c.setTypeface(null, Typeface.BOLD);
         } else {
             final CheckBox chk = (CheckBox) newView.findViewById(R.id.checkBox);
 
@@ -111,6 +114,8 @@ public class ListAdapter extends ArrayAdapter<MenuItem> {
             //TODO: Chris, Check if item is in database already
             //if it is in it, then set chk.setChecked(true);
             //
+
+            //TODO:UNDO COMMENT
             DBHandler db = new DBHandler(context);
             if (db.checkIfFavourite(w.name)) {
                 if (chk != null) {
@@ -162,7 +167,6 @@ public class ListAdapter extends ArrayAdapter<MenuItem> {
 
                     //TODO; add dialiog
 
-
                 }
 
 
@@ -185,6 +189,5 @@ public class ListAdapter extends ArrayAdapter<MenuItem> {
 
         return newView;
     }
-
 
 }

@@ -27,8 +27,11 @@
                 android:id="@+id/action_sort_bydining"
                 android:title="@string/action_sort_bydining" />
             <item
-                android:id="@+id/action_sort_bymeal"
-                android:title="@string/action_sort_bymeal" />
+            android:id="@+id/action_sort_bymeal"
+            android:title="@string/action_sort_bymeal" />
+            <item
+                android:id="@+id/action_sort_byfavorites"
+                android:title="@string/action_sort_byfavorites" />
         </menu>
     </item>
 

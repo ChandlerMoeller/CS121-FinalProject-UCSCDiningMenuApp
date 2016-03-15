@@ -3,6 +3,7 @@ package com.cs121.finalproject;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,10 +26,12 @@ public class ListFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM3 = "param3";
 
     // TODO: Rename and change types of parameters
     private int[] mParam1;
     private String mParam2;
+    private ArrayList<ArrayList<List<MenuItem>>> mParam3;
 
 
     ListAdapter adapter1;
@@ -41,7 +44,6 @@ public class ListFragment extends Fragment {
     ListView scrollview;
     List<MenuItem> resultlist;*/
     ArrayList<ArrayList<List<MenuItem>>> allmenus = new ArrayList<ArrayList<List<MenuItem>>>(5);
-    ;
 
 
     public ListFragment() {
@@ -57,11 +59,12 @@ public class ListFragment extends Fragment {
      * @return A new instance of fragment ListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ListFragment newInstance(int[] param1, String param2) {
+    public static ListFragment newInstance(int[] param1, String param2, ArrayList<ArrayList<List<MenuItem>>> param3) {
         ListFragment fragment = new ListFragment();
         Bundle args = new Bundle();
         args.putIntArray(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
+        args.putSerializable(ARG_PARAM3, param3);
         fragment.setArguments(args);
         return fragment;
     }
@@ -72,6 +75,7 @@ public class ListFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getIntArray(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            mParam3 = (ArrayList<ArrayList<List<MenuItem>>>) getArguments().getSerializable(ARG_PARAM3);
         }
 
     }
@@ -82,8 +86,26 @@ public class ListFragment extends Fragment {
         // Inflate the layout for this fragment
         View l = inflater.inflate(R.layout.fragment_list, container, false);
 
-        allmenus = ((MainActivity) getActivity()).getmenus();
-        adapt(l);
+        allmenus = mParam3;
+        /*if(mParam2 == null) {
+            allmenus = ((MainActivity) getActivity()).getmenus();
+        } else {
+            switch (mParam2) {
+                case "search":
+                    allmenus = ((SearchableActivity) getActivity()).getsearchmenus();
+                    break;
+                case "fav":
+                    allmenus = ((MainActivity) getActivity()).getfavmenus();
+                    break;
+                default:
+                    allmenus = ((MainActivity) getActivity()).getmenus();
+                    break;
+            }
+        }*/
+
+        if(allmenus!=null) {
+            adapt(l);
+        }
 
         return l;
     }
@@ -208,14 +230,20 @@ public class ListFragment extends Fragment {
                             Log.d("Testing", "j is: " + j);
                             Log.d("Testing", "k is: " + k);
                             Log.d("Testing", "howmanyadded is: " + howmanyadded);
-                            ListAdapter adapter2 = new ListAdapter(getContext(), R.layout.list_element, R.layout.list_meal_header, resultlist, R.layout.list_dining_header, "test");
+                            int element = R.layout.list_element;
+                            if (mParam2 != null) {
+                                if (mParam2.equals("search") || mParam2.equals("fav")) {
+                                    element = R.layout.list_element_no_checkbox;
+                                }
+                            }
+                            adapter2 = new ListAdapter(getContext(), element, R.layout.list_meal_header, resultlist, R.layout.list_dining_header, "test");
                             ListView scrollview = (ListView) l.findViewById(scrollviewid);
                             scrollview.setAdapter(adapter2);
                             adapter2.notifyDataSetChanged();
 
 
                             int howmanyitems = resultlist.size();
-                            int howbig = howmanyitems * (int) getResources().getDimension(R.dimen.item_height);
+                            int howbig = howmanyitems * (int) getResources().getDimension(R.dimen.item_height) + (int) getResources().getDimension(R.dimen.item_height_addition);
                             ;
                             Log.d("big", "" + howmanyitems);
 
@@ -252,6 +280,10 @@ public class ListFragment extends Fragment {
         }
 
 
+    }
+
+    public void refreshadapter() {
+        adapter2.notifyDataSetChanged();
     }
 
 }

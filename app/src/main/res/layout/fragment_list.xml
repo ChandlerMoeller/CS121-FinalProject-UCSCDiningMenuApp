@@ -30,6 +30,7 @@
             android:layout_marginTop="0dp"
             android:background="#f9f9f9"
             android:dividerHeight="0dp"
+            android:divider="@null"
 
             android:scrollbars="none"></ListView>
 
@@ -41,6 +42,7 @@
             android:layout_marginTop="0dp"
             android:background="#f9f9f9"
             android:dividerHeight="0dp"
+            android:divider="@null"
 
             android:scrollbars="none"></ListView>
 
@@ -52,6 +54,7 @@
             android:layout_marginTop="0dp"
             android:background="#f9f9f9"
             android:dividerHeight="0dp"
+            android:divider="@null"
 
             android:scrollbars="none"></ListView>
 
@@ -63,6 +66,7 @@
             android:layout_marginTop="0dp"
             android:background="#f9f9f9"
             android:dividerHeight="0dp"
+            android:divider="@null"
 
             android:scrollbars="none"></ListView>
 
@@ -74,6 +78,7 @@
             android:layout_marginTop="0dp"
             android:background="#f9f9f9"
             android:dividerHeight="0dp"
+            android:divider="@null"
 
             android:scrollbars="none">
 
@@ -89,6 +94,7 @@
             android:layout_marginTop="0dp"
             android:background="#f9f9f9"
             android:dividerHeight="0dp"
+            android:divider="@null"
 
             android:scrollbars="none"></ListView>
 
@@ -100,6 +106,7 @@
             android:layout_marginTop="0dp"
             android:background="#f9f9f9"
             android:dividerHeight="0dp"
+            android:divider="@null"
 
             android:scrollbars="none"></ListView>
 
@@ -111,6 +118,7 @@
             android:layout_marginTop="0dp"
             android:background="#f9f9f9"
             android:dividerHeight="0dp"
+            android:divider="@null"
 
             android:scrollbars="none"></ListView>
 
@@ -122,6 +130,7 @@
             android:layout_marginTop="0dp"
             android:background="#f9f9f9"
             android:dividerHeight="0dp"
+            android:divider="@null"
 
             android:scrollbars="none"></ListView>
 
@@ -133,6 +142,7 @@
             android:layout_marginTop="0dp"
             android:background="#f9f9f9"
             android:dividerHeight="0dp"
+            android:divider="@null"
 
             android:scrollbars="none">
 
@@ -148,6 +158,7 @@
             android:layout_marginTop="0dp"
             android:background="#f9f9f9"
             android:dividerHeight="0dp"
+            android:divider="@null"
 
             android:scrollbars="none"></ListView>
 
@@ -159,6 +170,7 @@
             android:layout_marginTop="0dp"
             android:background="#f9f9f9"
             android:dividerHeight="0dp"
+            android:divider="@null"
 
             android:scrollbars="none"></ListView>
 
@@ -170,6 +182,7 @@
             android:layout_marginTop="0dp"
             android:background="#f9f9f9"
             android:dividerHeight="0dp"
+            android:divider="@null"
 
             android:scrollbars="none"></ListView>
 
@@ -181,6 +194,7 @@
             android:layout_marginTop="0dp"
             android:background="#f9f9f9"
             android:dividerHeight="0dp"
+            android:divider="@null"
 
             android:scrollbars="none"></ListView>
 
@@ -192,6 +206,7 @@
             android:layout_marginTop="0dp"
             android:background="#f9f9f9"
             android:dividerHeight="0dp"
+            android:divider="@null"
 
             android:scrollbars="none">
 
