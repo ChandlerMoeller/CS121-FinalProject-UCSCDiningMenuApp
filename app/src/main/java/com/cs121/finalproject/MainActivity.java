@@ -141,23 +141,25 @@ public class MainActivity extends AppCompatActivity implements
         pickedday = singleinttodoublestring(dayOfMonth);
         pickedmonth = singleinttodoublestring(monthOfYear+1);
         pickedyear = Integer.toString(year);
-        Log.d("DateSet", "day: " + pickedday + " month: " + pickedmonth);
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         if (settings.getBoolean("bydining", true)) {
             middlefragment.Menusview(0, null, null, null);
+            GetDaysMenusFromServer(pickedday, pickedmonth, pickedyear);
         } else if(settings.getBoolean("bymeal", true)) {
             middlefragment.Menusview(1, null, null, null);
+            GetDaysMenusFromServer(pickedday, pickedmonth, pickedyear);
         } else if(settings.getBoolean("byfavorites", true)) {
             //
             int[] intarray = new int[15];
             for (int i = 0; i < intarray.length; i++) {
                 intarray[i] = 1;
             }
+            GetDaysMenusFromServer(pickedday, pickedmonth, pickedyear);
             middlefragment.Menusview(3, intarray, "search", getfavmenus());
         }
 
-        GetDaysMenusFromServer(pickedday, pickedmonth, pickedyear);
+
     }
 
     String singleinttodoublestring(int integer) {
@@ -375,15 +377,18 @@ public class MainActivity extends AppCompatActivity implements
                     //retrofitclear();
 
 
-                    //TODO: adapter
-                    String str = "fav";
-                    int[] intarray = new int[15];
-                    for (int i = 0; i < intarray.length; i++) {
-                        intarray[i] = 1;
+                    SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    if (settings.getBoolean("byfavorites", true)) {
+                        //TODO: adapter
+                        String str = "fav";
+                        int[] intarray = new int[15];
+                        for (int i = 0; i < intarray.length; i++) {
+                            intarray[i] = 1;
+                        }
+                        //favfrag.Menusview(3, intarray, str, getfavmenus());
+                        middlefragment.Menusview(3, intarray, str, favmenus);
+                        //favfrag.refreshadapter();
                     }
-                    //favfrag.Menusview(3, intarray, str, getfavmenus());
-                    middlefragment.Menusview(3, intarray, str, favmenus);
-                    //favfrag.refreshadapter();
 
                 }
 
