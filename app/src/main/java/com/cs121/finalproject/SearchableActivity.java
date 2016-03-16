@@ -77,7 +77,7 @@ public class SearchableActivity extends android.support.v4.app.FragmentActivity 
             }
 
             if(nothingfound){
-                int duration = Toast.LENGTH_SHORT;
+                int duration = Toast.LENGTH_LONG;
                 Toast toast = Toast.makeText(this, "Searches must be exact spelling aside from capitalization", duration);
                 toast.show();
             }

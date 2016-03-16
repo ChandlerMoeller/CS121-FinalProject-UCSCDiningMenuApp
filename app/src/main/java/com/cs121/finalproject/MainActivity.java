@@ -257,7 +257,7 @@ public class MainActivity extends AppCompatActivity implements
             for (int i = 0; i < intarray.length; i++) {
                 intarray[i] = 1;
             }
-            middlefragment.Menusview( 3, intarray, "search", getfavmenus());
+            middlefragment.Menusview(3, intarray, "search", getfavmenus());
             return true;
         }
         if (id == R.id.search) {
@@ -373,10 +373,7 @@ public class MainActivity extends AppCompatActivity implements
 
             @Override
             public void onFailure(Throwable t) {
-                // Log error here since request failed
-                String p = Log.getStackTraceString(t);
-                Log.e("Error", p);
-                Log.e("Error", "Failure");
+                Log.d("FAILURE", "NOT ON SERVER");
             }
 
         });
