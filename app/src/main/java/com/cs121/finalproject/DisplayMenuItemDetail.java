@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -31,6 +32,10 @@ public class DisplayMenuItemDetail extends AppCompatActivity {
         setContentView(R.layout.activity_display_menu_item_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(this, "Check the Favorites checkbox to add this item to your favorites\nView by sorting by favorites!", duration);
+        toast.show();
 
         Intent intent = getIntent();
         final MenuItem thisitem = (MenuItem)intent.getSerializableExtra("menuitem");

@@ -136,10 +136,7 @@ public class ListAdapter extends ArrayAdapter<MenuItem> {
             @Override
             public void onClick(View v) {
                 if (position2 != 0) {
-
-                    int duration = Toast.LENGTH_SHORT;
-                    Toast toast = Toast.makeText(context, w.name, duration);
-                    toast.show();
+                    //Opens up an activity to display menuitem details
                     Intent intent = new Intent(context, DisplayMenuItemDetail.class);
                     intent.putExtra("menuitem", w);
                     context.startActivity(intent);

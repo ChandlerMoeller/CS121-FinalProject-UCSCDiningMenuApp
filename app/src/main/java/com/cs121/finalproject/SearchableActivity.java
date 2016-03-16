@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -61,6 +62,7 @@ public class SearchableActivity extends android.support.v4.app.FragmentActivity 
             }else{
                 cacheitems = db.getCacheOneItems().get(0);
             }
+            boolean nothingfound = true;
             for(int i = 0; i <= 4; i++){
                 for(int j = 0; j <= 2; j++){
                     Log.d("cache", "hit");
@@ -68,9 +70,16 @@ public class SearchableActivity extends android.support.v4.app.FragmentActivity 
                       Log.d("cache", "hit2");
                       if (cacheitems.get(i).get(j).get(k).name.toLowerCase().equals(query.toLowerCase())) {
                          cacheHitItems.get(i).get(j).add(cacheitems.get(i).get(j).get(k));
+                          nothingfound = false;
                       }
                   }
                 }
+            }
+
+            if(nothingfound){
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(this, "Searches must be exact spelling aside from capitalization", duration);
+                toast.show();
             }
 
             FragmentManager fragmentManager3 = getSupportFragmentManager();

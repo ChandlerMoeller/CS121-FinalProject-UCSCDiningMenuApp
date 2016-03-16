@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,6 @@ public class ListFragment extends Fragment {
     ListAdapter adapter2;
     ListView scrollview2;
     List<MenuItem> resultlist2;
-    RecyclerviewAdapter radapter;
     ArrayList<ArrayList<List<MenuItem>>> allmenus = new ArrayList<ArrayList<List<MenuItem>>>(5);
 
 
@@ -74,6 +74,9 @@ public class ListFragment extends Fragment {
             mParam3 = (ArrayList<ArrayList<List<MenuItem>>>) getArguments().getSerializable(ARG_PARAM3);
         }
 
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(getContext(), "Press on an item to get more details!", duration);
+        toast.show();
     }
 
     @Override

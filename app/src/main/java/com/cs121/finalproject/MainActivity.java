@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -112,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements
         //End of Retrofit stuff
 
         //Get data on startup
-        GetDaysMenusFromServer(pickedday, pickedmonth, pickedyear);
+        GetDaysMenusFromServer(pickedday, pickedmonth, pickedyear, 1);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -133,20 +134,21 @@ public class MainActivity extends AppCompatActivity implements
         pickedmonth = singleinttodoublestring(monthOfYear+1);
         pickedyear = Integer.toString(year);
 
+        Log.d("DATABASE", "ONDATESET");
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         if (settings.getBoolean("bydining", true)) {
             middlefragment.Menusview(0, null, null, null);
-            GetDaysMenusFromServer(pickedday, pickedmonth, pickedyear);
-        } else if(settings.getBoolean("bymeal", true)) {
+            GetDaysMenusFromServer(pickedday, pickedmonth, pickedyear, 0);
+        } else if(settings.getBoolean("bymeal", false)) {
             middlefragment.Menusview(1, null, null, null);
-            GetDaysMenusFromServer(pickedday, pickedmonth, pickedyear);
-        } else if(settings.getBoolean("byfavorites", true)) {
+            GetDaysMenusFromServer(pickedday, pickedmonth, pickedyear, 0);
+        } else if(settings.getBoolean("byfavorites", false)) {
             //
             int[] intarray = new int[15];
             for (int i = 0; i < intarray.length; i++) {
                 intarray[i] = 1;
             }
-            GetDaysMenusFromServer(pickedday, pickedmonth, pickedyear);
+            GetDaysMenusFromServer(pickedday, pickedmonth, pickedyear, 0);
             middlefragment.Menusview(3, intarray, "search", getfavmenus());
         }
 
@@ -255,7 +257,7 @@ public class MainActivity extends AppCompatActivity implements
             for (int i = 0; i < intarray.length; i++) {
                 intarray[i] = 1;
             }
-            middlefragment.Menusview(3, intarray, "search", getfavmenus());
+            middlefragment.Menusview( 3, intarray, "search", getfavmenus());
             return true;
         }
         if (id == R.id.search) {
@@ -269,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
-    public void GetDaysMenusFromServer(String day, String month, String year) {
+    public void GetDaysMenusFromServer(String day, String month, String year, int firstopen) {
         String[] ca = {"CM", "CS", "EO", "NT", "PK"};
         String[] meal = {"BR", "LU", "DI"};
 
@@ -281,6 +283,7 @@ public class MainActivity extends AppCompatActivity implements
         DBHandler db = new DBHandler(getApplicationContext());
         String dayMonthYear = day + "-" + month + "-" + year;
         if (db.searchCacheForDate(dayMonthYear) == null) {
+            Log.d("DATABASE", "CACHE NOT hit");
             int j = 0;
             for (String a : ca) {
                 int i = 0;
@@ -293,6 +296,18 @@ public class MainActivity extends AppCompatActivity implements
             }
         } else {
             listdayalldiningmenu = db.searchCacheForDate(dayMonthYear);
+            Log.d("DATABASE", "CACHE hit");
+            if(firstopen==1) {
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                if (settings.getBoolean("byfavorites", false)) {
+                    Log.d("DATABASE", "FAV");
+                    int[] intarray = new int[15];
+                    for (int i = 0; i < intarray.length; i++) {
+                        intarray[i] = 1;
+                    }
+                    middlefragment.Menusview(3, intarray, "search", getfavmenus());
+                }
+            }
         }
         //
         //else if it is then get it from the SQLite data base and set listdayalldiningmenu as it
@@ -344,14 +359,13 @@ public class MainActivity extends AppCompatActivity implements
                     favmenus = getfavmenus();
 
                     SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                    if (settings.getBoolean("byfavorites", true)) {
-                        //TODO: adapter
+                    if (settings.getBoolean("byfavorites", false)) {
                         String str = "fav";
                         int[] intarray = new int[15];
                         for (int i = 0; i < intarray.length; i++) {
                             intarray[i] = 1;
                         }
-                        middlefragment.Menusview(3, intarray, str, favmenus);
+                        middlefragment.Menusview(3, intarray, str, getfavmenus());
                     }
 
                 }
@@ -412,7 +426,7 @@ public class MainActivity extends AppCompatActivity implements
 // and add the transaction to the back stack if needed
 // Commit the transaction
         int[] pass = whattodisplay(v.getTag().toString());
-        middlefragment.run(this, 3, pass, null, listdayalldiningmenu);
+        middlefragment.Menusview(3, pass, null, listdayalldiningmenu);
 
         String str = "fav";
         int[] intarray = new int[15];
