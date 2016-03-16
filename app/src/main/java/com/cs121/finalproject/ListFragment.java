@@ -238,7 +238,7 @@ public class ListFragment extends Fragment {
                             Log.d("Testing", "j is: " + j);
                             Log.d("Testing", "k is: " + k);
                             Log.d("Testing", "howmanyadded is: " + howmanyadded);
-                            int element = R.layout.list_element;
+                            int element = R.layout.list_element_no_checkbox;
                             if (mParam2 != null) {
                                 if (mParam2.equals("search") || mParam2.equals("fav")) {
                                     element = R.layout.list_element_no_checkbox;

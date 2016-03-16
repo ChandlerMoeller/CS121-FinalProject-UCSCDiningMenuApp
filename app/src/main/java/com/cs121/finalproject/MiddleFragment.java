@@ -101,7 +101,7 @@ public class MiddleFragment extends Fragment {
                 fragment3 = ListFragment.newInstance(intarray, str, listdayalldiningmenu);
                 if (str != null) {
                     if (str.equals("fav")) {
-                        fragmentTransaction3.replace(R.id.favfrag, fragment3);
+                        fragmentTransaction3.replace(R.id.frag, fragment3);
                     } else {
                         fragmentTransaction3.replace(R.id.frag, fragment3);
                     }

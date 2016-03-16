@@ -3,6 +3,7 @@ package com.cs121.finalproject;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -57,13 +58,8 @@ public class ListAdapter extends ArrayAdapter<MenuItem> {
         } else {
             vi.inflate(resource, newView, true);
         }
-        //} else {
-        //vi.inflate(resource_meal_header, newView, true);
-        //}
-        //vi.inflate(resource_dining_header, newView, true);
 
         // Fills in the view.
-        //TextView tv = (TextView) newView.findViewById(R.id.message_message);
         TextView b = (TextView) newView.findViewById(R.id.element_name);
         //tv.setText(w.name);
         String fixedname = w.name;
@@ -111,17 +107,17 @@ public class ListAdapter extends ArrayAdapter<MenuItem> {
             final CheckBox chk = (CheckBox) newView.findViewById(R.id.checkBox);
 
             //
-            //TODO: Chris, Check if item is in database already
+            //Check if item is in database already
             //if it is in it, then set chk.setChecked(true);
             //
 
             //TODO:UNDO COMMENT
-            DBHandler db = new DBHandler(context);
+            /*DBHandler db = new DBHandler(context);
             if (db.checkIfFavourite(w.name)) {
                 if (chk != null) {
                     chk.setChecked(true);
                 }
-            }
+            }*/
 
             // Sets a listener for the button, and a tag for the button as well.
             //chk.setTag(new Integer(position));
@@ -138,12 +134,12 @@ public class ListAdapter extends ArrayAdapter<MenuItem> {
                         DBHandler db = new DBHandler(context);
                         if (chk.isChecked()) {
                             //
-                            //TODO: Chris, add to database here
+                            //add to database
                             //
                             db.insertFavouritesItem(w);
                         } else {
                             //
-                            //TODO: Chris, delete from database here
+                            //Delete from database
                             //
                             db.deleteFavouritesItem(w);
                         }
@@ -165,25 +161,16 @@ public class ListAdapter extends ArrayAdapter<MenuItem> {
             public void onClick(View v) {
                 if (position2 != 0) {
 
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(context, w.name, duration);
+                    toast.show();
+                    Intent intent = new Intent(context, DisplayMenuItemDetail.class);
+                    intent.putExtra("menuitem", w);
+                    context.startActivity(intent);
                     //TODO; add dialiog
 
                 }
 
-
-
-                /*SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-                if (settings.getBoolean("spoofmode_switch", true)) {
-                    SharedPreferences.Editor e = settings.edit();
-                    e.putString("spoofed_user_id", v.getTag(R.string.one).toString());
-                    e.putString("spoofed_username", v.getTag(R.string.two).toString());
-                    e.commit();
-
-                    String s = v.getTag(R.string.one).toString();
-                    String s2 = v.getTag(R.string.two).toString();
-                    int duration = Toast.LENGTH_SHORT;
-                    Toast toast = Toast.makeText(context, s2+" | "+s, duration);
-                    toast.show();
-                }*/
             }
         });
 

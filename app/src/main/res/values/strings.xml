@@ -17,4 +17,5 @@
 
     <string name="one">one</string>
     <string name="two">two</string>
+    <string name="title_activity_display_menu_item_detail">DisplayMenuItemDetail</string>
 </resources>

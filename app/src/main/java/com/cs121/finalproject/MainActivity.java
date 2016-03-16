@@ -1,13 +1,10 @@
 package com.cs121.finalproject;
 
-import android.content.ComponentName;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
-import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -18,19 +15,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.SearchView;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
-
-import android.widget.Toast;
-
-import org.joda.time.DateTime;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -53,7 +42,6 @@ import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialo
 public class MainActivity extends AppCompatActivity implements
         CalendarDatePickerDialogFragment.OnDateSetListener {
 
-    private SectionsPagerAdapter mSectionsPagerAdapter;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -80,8 +68,7 @@ public class MainActivity extends AppCompatActivity implements
     String pickedmonth;
     String pickedyear;
 
-    MiddleFragment testfrag = MiddleFragment.newInstance("regular");
-    MiddleFragment favfrag = MiddleFragment.newInstance("fav");
+    MiddleFragment middlefragment = MiddleFragment.newInstance("regular");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,19 +101,8 @@ public class MainActivity extends AppCompatActivity implements
         setSupportActionBar(toolbar);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.mainframe, testfrag);
+        transaction.add(R.id.mainframe, middlefragment);
         transaction.commit();
-
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        ////mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-        // Set up the ViewPager with the sections adapter.
-        ////mViewPager = (ViewPager) findViewById(R.id.container);
-        ////mViewPager.setAdapter(mSectionsPagerAdapter);
-
-        ////TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        ////tabLayout.setupWithViewPager(mViewPager);
 
 
         //Retrofit Stuff
@@ -169,16 +145,16 @@ public class MainActivity extends AppCompatActivity implements
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         if (settings.getBoolean("bydining", true)) {
-            testfrag.Menusview(0, null, null, null);
+            middlefragment.Menusview(0, null, null, null);
         } else if(settings.getBoolean("bymeal", true)) {
-            testfrag.Menusview(1, null, null, null);
+            middlefragment.Menusview(1, null, null, null);
         } else if(settings.getBoolean("byfavorites", true)) {
             //
             int[] intarray = new int[15];
             for (int i = 0; i < intarray.length; i++) {
                 intarray[i] = 1;
             }
-            testfrag.Menusview(3, intarray, "search", getfavmenus());
+            middlefragment.Menusview(3, intarray, "search", getfavmenus());
         }
 
         GetDaysMenusFromServer(pickedday, pickedmonth, pickedyear);
@@ -266,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements
             e.putBoolean("bydining", true);
             e.putBoolean("byfavorites", false);
             e.commit();
-            testfrag.Menusview(0, null, null, null);
+            middlefragment.Menusview(0, null, null, null);
             return true;
         }
         if (id == R.id.action_sort_bymeal) {
@@ -276,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements
             e.putBoolean("bydining", false);
             e.putBoolean("byfavorites", false);
             e.commit();
-            testfrag.Menusview(1, null, null, null);
+            middlefragment.Menusview(1, null, null, null);
             return true;
         }
         if (id == R.id.action_sort_byfavorites) {
@@ -290,8 +266,8 @@ public class MainActivity extends AppCompatActivity implements
             for (int i = 0; i < intarray.length; i++) {
                 intarray[i] = 1;
             }
-            testfrag.Menusview(3, intarray, "search", getfavmenus());
-            //testfrag.Menusview(3, intarray, null, favmenus);
+            middlefragment.Menusview(3, intarray, "search", getfavmenus());
+            //middlefragment.Menusview(3, intarray, null, favmenus);
             return true;
         }
         if (id == R.id.search) {
@@ -304,47 +280,6 @@ public class MainActivity extends AppCompatActivity implements
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            switch (position) {
-                case 0:
-                    return testfrag;
-                case 1:
-                    return favfrag;
-            }
-            return new ByDiningHallFragment();
-        }
-
-
-        @Override
-        public int getCount() {
-            // Show 2 total pages.
-            return 2;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "Menus";
-                case 1:
-                    return "Favorites";
-            }
-            return null;
-        }
-    }
 
     public void GetDaysMenusFromServer(String day, String month, String year) {
         String[] ca = {"CM", "CS", "EO", "NT", "PK"};
@@ -447,7 +382,7 @@ public class MainActivity extends AppCompatActivity implements
                         intarray[i] = 1;
                     }
                     //favfrag.Menusview(3, intarray, str, getfavmenus());
-                    favfrag.Menusview(3, intarray, str, favmenus);
+                    middlefragment.Menusview(3, intarray, str, favmenus);
                     //favfrag.refreshadapter();
 
                 }
@@ -518,7 +453,6 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     public void test(View v) {
-        Log.e("test", "test");
         //mSectionsPagerAdapter.getItem(0);
         //Fragment newFragment = new ListFragment();
         //android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -530,8 +464,8 @@ public class MainActivity extends AppCompatActivity implements
 // Commit the transaction
         //transaction.commit();
         int[] pass = whattodisplay(v.getTag().toString());
-        //testfrag.Menusview(3, pass, null, listdayalldiningmenu);
-        testfrag.run(this, 3, pass, null, listdayalldiningmenu);
+        //middlefragment.Menusview(3, pass, null, listdayalldiningmenu);
+        middlefragment.run(this, 3, pass, null, listdayalldiningmenu);
 
 
         String str = "fav";
