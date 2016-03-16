@@ -1,5 +1,6 @@
 package com.cs121.finalproject;
 
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
@@ -8,6 +9,7 @@ import android.database.Cursor;
 import java.util.ArrayList;
 
 import android.database.sqlite.SQLiteQueryBuilder;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import java.util.List;
 
@@ -25,8 +27,8 @@ public class DBHandler extends SQLiteOpenHelper {
     // and http://www.androidhive.info/2013/09/android-sqlite-database-with-multiple-tables/
 
 
-    int cachedMenuNum = 0;
-    Context context;
+    int cachedMenuNum;
+    private Context context;
     private pickedDate passDateToSearchActivity = pickedDate.getPickedDate();
 
     private static final int DATABASE_VERSION = 1;
@@ -42,6 +44,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public DBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
     }
 
     //----------------------------favourites DB-----------------------------------------------------
@@ -148,18 +151,27 @@ public class DBHandler extends SQLiteOpenHelper {
 
     //-----------------------------cache one DB-----------------------------------------------------
     public void insertCacheOneItem(ArrayList<ArrayList<List<MenuItem>>> allDHAllMeals, String dayMonthYear) {
+        SQLiteDatabase db = this.getWritableDatabase();
 
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor e = settings.edit();
+        cachedMenuNum = settings.getInt("cachedMenuNum", -1);
+        if (cachedMenuNum == -1) {
+            cachedMenuNum = 0;
+            e.putInt("cachedMenuNum", cachedMenuNum);
+            e.apply();
+        }
         ContentValues values = new ContentValues();
         Gson gson = new Gson();
         values.put(COLUMN_DININGITEM, gson.toJson(allDHAllMeals).getBytes());
         cachedMenuNum++;
+        e.putInt("cachedMenuNum", cachedMenuNum);
+        e.apply();
         String cacheNum = ""+cachedMenuNum;
         values.put(CACHE_ID,cacheNum);
         values.put(CACHE_DMY,dayMonthYear);
         //String nameWithoutSpaces = allDHAllMeals.get(0).get(0).get(0).name.replaceAll("\\s+","");
         //values.put(MENUITEM_ID, nameWithoutSpaces);
-
-        SQLiteDatabase db = this.getWritableDatabase();
         db.insert(TABLE_CACHEONE, null, values);
         db.close();
     }
@@ -211,7 +223,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public void deleteCacheOneItem(/*ArrayList<ArrayList<List<MenuItem>>> exAllDHAllMeals*/) {
         SQLiteDatabase db = this.getReadableDatabase();
         Gson gson = new Gson();
-        db.delete(TABLE_CACHEONE, CACHE_ID + " = ?", new String[]{""+(cachedMenuNum-2)});
+        db.delete(TABLE_CACHEONE, CACHE_ID + " = ?", new String[]{"" + (cachedMenuNum - 2)});
         //String nameWithoutSpaces = exAllDHAllMeals.get(0).get(0).get(0).name.replaceAll("\\s+", "");
         //db.delete(TABLE_CACHEONE, MENUITEM_ID + " = ?", new String[]{nameWithoutSpaces});
         db.close();

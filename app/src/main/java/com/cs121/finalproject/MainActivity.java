@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements
     private String ingredients;
     private String allergens;
     //----------------------------------------------------------------------------------------------
-    private int numCachedMenus = 0;
+    private int numCachedMenus;
     //----------------------------------------------------------------------------------------------
 
     String pickedday;
@@ -90,7 +90,20 @@ public class MainActivity extends AppCompatActivity implements
 
         retrofitclear();
 
+        //------------------------------------------------------------------------------------------
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor e = settings.edit();
+        numCachedMenus = settings.getInt("numCachedMenus", -1);
+        if (numCachedMenus == -1) {
+            numCachedMenus = 0;
+            e.putInt("numCachedMenus", numCachedMenus);
+            e.apply();
+        }
         //MainActivity.this.deleteDatabase("DiningMenuDB.db");
+        //numCachedMenus = -1;
+        //e.putInt("numCachedMenus", numCachedMenus);
+        //e.apply();
+        //------------------------------------------------------------------------------------------
 
         Calendar c = Calendar.getInstance(TimeZone.getDefault());
         pickedday = singleinttodoublestring(c.get(Calendar.DAY_OF_MONTH));
@@ -398,10 +411,16 @@ public class MainActivity extends AppCompatActivity implements
                     if (numCachedMenus < 2) {
                         passDateToSearchActivity.setDate(dayMonthYear);
                         db.insertCacheOneItem(listdayalldiningmenu, dayMonthYear);
+                        Log.e("lmaoooo", "lmaoooooooo");
                         numCachedMenus++;
+                        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                        SharedPreferences.Editor e = settings.edit();
+                        e.putInt("numCachedMenus", numCachedMenus);
+                        e.apply();
                     } else {
                         passDateToSearchActivity.setDate(dayMonthYear);
                         db.insertCacheOneItem(listdayalldiningmenu, dayMonthYear);
+                        Log.e("ayyyy","atttttyyy");
                         db.deleteCacheOneItem();
                     }
                     favmenus = getfavmenus();
