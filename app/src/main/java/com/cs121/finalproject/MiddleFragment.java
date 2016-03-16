@@ -96,8 +96,7 @@ public class MiddleFragment extends Fragment {
             case 3:
                 FragmentManager fragmentManager3 = getFragmentManager();
                 FragmentTransaction fragmentTransaction3 = fragmentManager3.beginTransaction();
-
-                //ListFragment fragment3 = new ListFragment();
+                
                 fragment3 = ListFragment.newInstance(intarray, str, listdayalldiningmenu);
                 if (str != null) {
                     if (str.equals("fav")) {

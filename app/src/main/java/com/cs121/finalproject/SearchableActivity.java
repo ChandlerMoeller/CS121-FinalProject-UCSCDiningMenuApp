@@ -46,7 +46,6 @@ public class SearchableActivity extends android.support.v4.app.FragmentActivity 
             ArrayList<ArrayList<List<MenuItem>>> cacheitems;
             String ayy = "";
             String currentDate = passDateToSearchActivity.getDate();
-            //ArrayList<ArrayList<List<MenuItem>>> cacheHitItems = new ArrayList<>(5);
             cacheHitItems.add(new ArrayList<List<MenuItem>>(3));
             cacheHitItems.add(new ArrayList<List<MenuItem>>(3));
             cacheHitItems.add(new ArrayList<List<MenuItem>>(3));
@@ -57,7 +56,6 @@ public class SearchableActivity extends android.support.v4.app.FragmentActivity 
                 v.add(new ArrayList<MenuItem>());
                 v.add(new ArrayList<MenuItem>());
             }
-            //cacheitems = db.getCacheOneItems().get(1);
             if(db.searchCacheForDate(currentDate) != null) {
                 cacheitems = db.searchCacheForDate(currentDate);
             }else{
@@ -69,42 +67,15 @@ public class SearchableActivity extends android.support.v4.app.FragmentActivity 
                   for(int k = 0; k<= cacheitems.get(i).get(j).size()-1; k++) {
                       Log.d("cache", "hit2");
                       if (cacheitems.get(i).get(j).get(k).name.toLowerCase().equals(query.toLowerCase())) {
-
                          cacheHitItems.get(i).get(j).add(cacheitems.get(i).get(j).get(k));
-                          /*for(MenuItem x : cacheHitItems.get(i).get(j)){
-                            if(i == 0) {
-                              x.name = "Crown/Merrill during";
-                            }else if(i == 1){
-                                x.name = "Cowell/Stevenson during";
-                            }else if(i == 2){
-                                x.name = "Eight/Oakes during";
-                            }else if(i == 3){
-                                x.name = "Nine/Ten during";
-                            }else if(i == 4){
-                                x.name = "Porter/Kresge during";
-                            }
-
-                              if(j == 0){
-                                  x.name += " Breakfast";
-                              }else if(j == 1){
-                                  x.name += " Lunch";
-                              }else if(j == 2){
-                                  x.name += " Dinner";
-                              }
-                          }
-                          Log.d("cache", cacheHitItems.get(i).get(j).get(0).name);
-                          ayy +=cacheHitItems.get(i).get(j).get(0).name+"\n";*/
                       }
                   }
                 }
             }
 
-            //searchExplanationText.setText(ayy);
-
             FragmentManager fragmentManager3 = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction3 = fragmentManager3.beginTransaction();
 
-            //ListFragment fragment3 = new ListFragment();
             String str = "search";
             int[] intarray = new int[15];
             for (int i = 0; i < intarray.length; i++) {
@@ -113,7 +84,6 @@ public class SearchableActivity extends android.support.v4.app.FragmentActivity 
 
             ListFragment fragment3 = ListFragment.newInstance(intarray, str, cacheHitItems);
             fragmentTransaction3.replace(R.id.searchListContainer, fragment3);
-            //fragmentTransaction3.addToBackStack("test");
             fragmentTransaction3.commit();
 
 

@@ -23,13 +23,11 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class ListFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String ARG_PARAM3 = "param3";
 
-    // TODO: Rename and change types of parameters
     private int[] mParam1;
     private String mParam2;
     private ArrayList<ArrayList<List<MenuItem>>> mParam3;
@@ -42,9 +40,6 @@ public class ListFragment extends Fragment {
     ListView scrollview2;
     List<MenuItem> resultlist2;
     RecyclerviewAdapter radapter;
-    /*ListAdapter adapter2;
-    ListView scrollview;
-    List<MenuItem> resultlist;*/
     ArrayList<ArrayList<List<MenuItem>>> allmenus = new ArrayList<ArrayList<List<MenuItem>>>(5);
 
 
@@ -60,7 +55,6 @@ public class ListFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment ListFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static ListFragment newInstance(int[] param1, String param2, ArrayList<ArrayList<List<MenuItem>>> param3) {
         ListFragment fragment = new ListFragment();
         Bundle args = new Bundle();
@@ -87,39 +81,17 @@ public class ListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View l = inflater.inflate(R.layout.fragment_list, container, false);
-        //////View l = inflater.inflate(R.layout.recyclerview, container, false);
 
         allmenus = mParam3;
-        /*if(mParam2 == null) {
-            allmenus = ((MainActivity) getActivity()).getmenus();
-        } else {
-            switch (mParam2) {
-                case "search":
-                    allmenus = ((SearchableActivity) getActivity()).getsearchmenus();
-                    break;
-                case "fav":
-                    allmenus = ((MainActivity) getActivity()).getfavmenus();
-                    break;
-                default:
-                    allmenus = ((MainActivity) getActivity()).getmenus();
-                    break;
-            }
-        }*/
 
         if(allmenus!=null) {
             adapt(l);
-
-            /*RecyclerviewAdapter radapter = new RecyclerviewAdapter(getContext(), mParam1, mParam2, 0, allmenus);
-            RecyclerView scrollview = (RecyclerView) l.findViewById(R.id.recyclerview);
-            scrollview.setAdapter(radapter);
-            radapter.notifyDataSetChanged();*/
         }
 
         return l;
     }
 
     public void adapt(View l) {
-        //allmenus = ((MainActivity) getActivity()).getmenus();
         String namedininghall = " ";
         String namemeal = " ";
 
@@ -170,7 +142,6 @@ public class ListFragment extends Fragment {
                         namemeal = "Dinner";
                     }
 
-                    //resultlist = allmenus.get(j).get(k);
                     List<MenuItem> resultlist = allmenus.get(j).get(k);
                     int scrollviewid = -1;
 
@@ -269,18 +240,6 @@ public class ListFragment extends Fragment {
                             scrollview.requestLayout();
                         }
                     }
-
-
-
-
-
-
-                /*if (resultlist != null) {
-                    adapter2 = new ListAdapter(getContext(), R.layout.list_element, R.layout.list_meal_header, allmenus.get(3).get(2), R.layout.list_dining_header, "test");
-                    scrollview = (ListView) l.findViewById(R.id.scrollview2);
-                    scrollview.setAdapter(adapter2);
-                    adapter2.notifyDataSetChanged();
-                }*/
 
                     howmanyadded++;
                 }

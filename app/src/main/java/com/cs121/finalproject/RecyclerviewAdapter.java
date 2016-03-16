@@ -59,7 +59,6 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         adapt(holder.mListView, position);
-        //holder.mListView.setText(mDataset[position]);
 
     }
 
@@ -75,13 +74,11 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
             }
         }
 
-        //return allmenus.size();
         return howmanyadded;
     }
 
 
     public void adapt(View l, int position) {
-        //allmenus = ((MainActivity) getActivity()).getmenus();
         String namedininghall = " ";
         String namemeal = " ";
 
@@ -132,9 +129,6 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
                         namemeal = "Dinner";
                     }
 
-                    //if (position == howmanyadded-1) {
-
-                        //resultlist = allmenus.get(j).get(k);
                         List<MenuItem> resultlist = allmenus.get(j).get(k);
                         int scrollviewid = -1;
 
@@ -180,19 +174,6 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
                                 scrollview.requestLayout();
                             }
                         }
-                    //}
-
-
-
-
-
-
-                /*if (resultlist != null) {
-                    adapter2 = new ListAdapter(getContext(), R.layout.list_element, R.layout.list_meal_header, allmenus.get(3).get(2), R.layout.list_dining_header, "test");
-                    scrollview = (ListView) l.findViewById(R.id.scrollview2);
-                    scrollview.setAdapter(adapter2);
-                    adapter2.notifyDataSetChanged();
-                }*/
 
                     howmanyadded++;
                 }

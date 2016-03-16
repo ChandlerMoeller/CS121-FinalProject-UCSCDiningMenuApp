@@ -60,9 +60,7 @@ public class MainActivity extends AppCompatActivity implements
     private List<String> tags;
     private String ingredients;
     private String allergens;
-    //----------------------------------------------------------------------------------------------
     private int numCachedMenus;
-    //----------------------------------------------------------------------------------------------
 
     String pickedday;
     String pickedmonth;
@@ -77,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements
 
         retrofitclear();
 
-        //------------------------------------------------------------------------------------------
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor e = settings.edit();
         numCachedMenus = settings.getInt("numCachedMenus", -1);
@@ -86,11 +83,6 @@ public class MainActivity extends AppCompatActivity implements
             e.putInt("numCachedMenus", numCachedMenus);
             e.apply();
         }
-        //MainActivity.this.deleteDatabase("DiningMenuDB.db");
-        //numCachedMenus = -1;
-        //e.putInt("numCachedMenus", numCachedMenus);
-        //e.apply();
-        //------------------------------------------------------------------------------------------
 
         Calendar c = Calendar.getInstance(TimeZone.getDefault());
         pickedday = singleinttodoublestring(c.get(Calendar.DAY_OF_MONTH));
@@ -137,7 +129,6 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onDateSet(CalendarDatePickerDialogFragment dialog, int year, int monthOfYear, int dayOfMonth) {
-        //mResultTextView.setText(getString(R.string.calendar_date_picker_result_values, year, monthOfYear, dayOfMonth));
         pickedday = singleinttodoublestring(dayOfMonth);
         pickedmonth = singleinttodoublestring(monthOfYear+1);
         pickedyear = Integer.toString(year);
@@ -233,10 +224,6 @@ public class MainActivity extends AppCompatActivity implements
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        //if (id == R.id.action_settings) {
-        //  return true;
-        //}
         if (id == R.id.action_sort_bydining) {
             SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
             SharedPreferences.Editor e = settings.edit();
@@ -269,7 +256,6 @@ public class MainActivity extends AppCompatActivity implements
                 intarray[i] = 1;
             }
             middlefragment.Menusview(3, intarray, "search", getfavmenus());
-            //middlefragment.Menusview(3, intarray, null, favmenus);
             return true;
         }
         if (id == R.id.search) {
@@ -339,11 +325,6 @@ public class MainActivity extends AppCompatActivity implements
                     //ADD TO DATABASE HERE
                     //
                     //add listdayalldiningmenu to database
-
-                    //------------------------------------------------------------------------------
-                    //passedMenuList.setMenuList(response.body());
-
-                    //String dayMonthYear = pickedday + "-" + pickedmonth + "-" + pickedyear;
                     DBHandler db = new DBHandler(getApplicationContext());
                     if (numCachedMenus < 2) {
                         passDateToSearchActivity.setDate(dayMonthYear);
@@ -361,21 +342,6 @@ public class MainActivity extends AppCompatActivity implements
                         db.deleteCacheOneItem();
                     }
                     favmenus = getfavmenus();
-                    //Toast toast2 = Toast.makeText(MainActivity.this, db.getCacheOneItems().get(1).get(2).get(0).name, Toast.LENGTH_LONG);
-                    //toast2.setGravity(Gravity.TOP, 0, 0);
-                    //toast2.show();
-                    //MainActivity.this.deleteDatabase("DiningMenuDB.db");
-                    //db.insertFavouritesItem(listmenu.get(0));
-                    //db.deleteFavouritesItem(listmenu.get(0));
-                    //Toast toast2 = Toast.makeText(MainActivity.this, db.getFavouritesItems().get(0).name, Toast.LENGTH_LONG);
-                    //toast2.setGravity(Gravity.TOP, 0, 0);
-                    //toast2.show();
-                    //------------------------------------------------------------------------------
-
-                    //clear listdayalldiningmenu and retrofitcheck
-
-                    //retrofitclear();
-
 
                     SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     if (settings.getBoolean("byfavorites", true)) {
@@ -385,27 +351,10 @@ public class MainActivity extends AppCompatActivity implements
                         for (int i = 0; i < intarray.length; i++) {
                             intarray[i] = 1;
                         }
-                        //favfrag.Menusview(3, intarray, str, getfavmenus());
                         middlefragment.Menusview(3, intarray, str, favmenus);
-                        //favfrag.refreshadapter();
                     }
 
                 }
-
-
-                //Adapter stuff for the listview
-                    /*adapter2 = new MyAdapter(ChatActivity.this, R.layout.list_element_yourmessage, R.layout.list_element_mymessage, resultlist, client_userId);
-                    scrollview = (ListView) findViewById(R.id.scrollview);
-                    scrollview.setAdapter(adapter2);
-                    adapter2.notifyDataSetChanged();*/
-
-                /*} else {
-                    //Snackbar for Other Error
-                    Toast toast = Toast.makeText(MainActivity.this, "Other", Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.TOP, 0, 0);
-                    toast.show();
-                    return;
-                }*/
             }
 
             @Override
@@ -458,28 +407,18 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     public void test(View v) {
-        //mSectionsPagerAdapter.getItem(0);
-        //Fragment newFragment = new ListFragment();
-        //android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
 // Replace whatever is in the fragment_container view with this fragment,
 // and add the transaction to the back stack if needed
-        //transaction.replace(R.id.container, newFragment);
-        //transaction.addToBackStack(null);
 // Commit the transaction
-        //transaction.commit();
         int[] pass = whattodisplay(v.getTag().toString());
-        //middlefragment.Menusview(3, pass, null, listdayalldiningmenu);
         middlefragment.run(this, 3, pass, null, listdayalldiningmenu);
-
 
         String str = "fav";
         int[] intarray = new int[15];
         for (int i = 0; i < intarray.length; i++) {
             intarray[i] = 1;
         }
-        //favfrag.Menusview(3,intarray, str, getfavmenus());
-        /////favfrag.Menusview(3,intarray, str, favmenus);
     }
 
     ArrayList<ArrayList<List<MenuItem>>> getmenus() {
@@ -488,8 +427,6 @@ public class MainActivity extends AppCompatActivity implements
 
     ArrayList<ArrayList<List<MenuItem>>> getfavmenus() {
         DBHandler dba = new DBHandler(this);
-        //return listdayalldiningmenu;
-        //DBHandler dba = new DBHandler(context);
 
         ArrayList<ArrayList<List<MenuItem>>> favitems;
         ArrayList<ArrayList<List<MenuItem>>> favhititems = new ArrayList<>(5);
@@ -505,27 +442,23 @@ public class MainActivity extends AppCompatActivity implements
         }
         if (dba.searchCacheForDate(passDateToSearchActivity.getDate()) != null) {
             favitems = dba.searchCacheForDate(passDateToSearchActivity.getDate());
-            //favitems = dba.getCacheOneItems().get(0);
         } else {
             favitems = dba.getCacheOneItems().get(0);
         }
+        // get favourites to be displayed
         for (MenuItem a : dba.getFavouritesItems()) {
             for (int i = 0; i <= 4; i++) {
                 for (int j = 0; j <= 2; j++) {
-                    //if (favitems.get(i).get(j) != null) {
                         for (int k = 0; k <= favitems.get(i).get(j).size() - 1; k++) {
-                            //String nameWithoutSpaces = favitems.get(i).get(j).get(k).name.replaceAll("\\s+","");
-                            if (/*nameWithoutSpaces*/favitems.get(i).get(j).get(k).name.toLowerCase().equals(a.name.toLowerCase())) {
+                            if (favitems.get(i).get(j).get(k).name.toLowerCase().equals(a.name.toLowerCase())) {
                                 favhititems.get(i).get(j).add(favitems.get(i).get(j).get(k));
                                 Log.d("logging", "" + favhititems.get(i).get(j).get(0).name);
                             }
                         }
-                    //}
                 }
             }
         }
         return favhititems;
-        // return db.getFavouritesAsAllMenu();
     }
 
 

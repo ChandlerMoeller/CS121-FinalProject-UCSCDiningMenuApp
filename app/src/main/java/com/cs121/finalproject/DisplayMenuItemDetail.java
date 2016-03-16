@@ -69,10 +69,6 @@ public class DisplayMenuItemDetail extends AppCompatActivity {
                 public void onClick(View v) {
                     // Reacts to a button press.
                     // Gets the integer tag of the button.
-                    //String s = v.getTag().toString();
-                    //int duration = Toast.LENGTH_SHORT;
-                    //Toast toast = Toast.makeText(context, s, duration);
-                    //toast.show();
                     DBHandler db = new DBHandler(DisplayMenuItemDetail.this);
                     if (chk.isChecked()) {
                         //

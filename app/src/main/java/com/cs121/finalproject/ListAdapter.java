@@ -52,7 +52,7 @@ public class ListAdapter extends ArrayAdapter<MenuItem> {
         newView = new LinearLayout(getContext());
         String inflater = Context.LAYOUT_INFLATER_SERVICE;
         LayoutInflater vi = (LayoutInflater) getContext().getSystemService(inflater);
-        //if (!client_userId.equals(itemname)) {
+
         if (position == 0) {
             vi.inflate(resource_dining_header, newView, true);
         } else {
@@ -61,7 +61,6 @@ public class ListAdapter extends ArrayAdapter<MenuItem> {
 
         // Fills in the view.
         TextView b = (TextView) newView.findViewById(R.id.element_name);
-        //tv.setText(w.name);
         String fixedname = w.name;
 
 
@@ -82,18 +81,14 @@ public class ListAdapter extends ArrayAdapter<MenuItem> {
 
             b.setText(fixedname);
 
-            //if (element != null) {
             if (fixedname.equals("Farm Fridays")) {
                 b.setTypeface(null, Typeface.BOLD);
                 b.setTextColor(Color.RED);
-                ////holder.LinearLayoutView.setBackgroundColor(ContextCompat.getColor(context, R.color.dining_greensubbar));
             }
             if (fixedname.equals("Healthy Mondays")) {
                 b.setTypeface(null, Typeface.BOLD);
                 b.setTextColor(Color.RED);
-                ////holder.LinearLayoutView.setBackgroundColor(ContextCompat.getColor(context, R.color.dining_greensubbar));
             }
-            //}
 
         }
 
@@ -106,31 +101,13 @@ public class ListAdapter extends ArrayAdapter<MenuItem> {
         } else {
             final CheckBox chk = (CheckBox) newView.findViewById(R.id.checkBox);
 
-            //
-            //Check if item is in database already
-            //if it is in it, then set chk.setChecked(true);
-            //
-
-            //TODO:UNDO COMMENT
-            /*DBHandler db = new DBHandler(context);
-            if (db.checkIfFavourite(w.name)) {
-                if (chk != null) {
-                    chk.setChecked(true);
-                }
-            }*/
-
             // Sets a listener for the button, and a tag for the button as well.
-            //chk.setTag(new Integer(position));
             if (chk != null) {
                 chk.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // Reacts to a button press.
                         // Gets the integer tag of the button.
-                        //String s = v.getTag().toString();
-                        //int duration = Toast.LENGTH_SHORT;
-                        //Toast toast = Toast.makeText(context, s, duration);
-                        //toast.show();
                         DBHandler db = new DBHandler(context);
                         if (chk.isChecked()) {
                             //
@@ -155,7 +132,6 @@ public class ListAdapter extends ArrayAdapter<MenuItem> {
 
         final int position2 = position;
 
-        //newView.setTag(R.string.two, w.nickname);
         newView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,8 +143,6 @@ public class ListAdapter extends ArrayAdapter<MenuItem> {
                     Intent intent = new Intent(context, DisplayMenuItemDetail.class);
                     intent.putExtra("menuitem", w);
                     context.startActivity(intent);
-                    //TODO; add dialiog
-
                 }
 
             }

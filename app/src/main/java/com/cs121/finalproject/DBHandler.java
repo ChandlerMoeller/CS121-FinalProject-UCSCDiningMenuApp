@@ -12,9 +12,6 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import java.util.List;
-
-import org.json.JSONObject;
-import org.json.JSONArray;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -27,18 +24,24 @@ public class DBHandler extends SQLiteOpenHelper {
     // and http://www.androidhive.info/2013/09/android-sqlite-database-with-multiple-tables/
 
 
-    int cachedMenuNum;
+    int cachedMenuNum; // ID number of cache entry
     private Context context;
+
+    //get date from main activity
     private pickedDate passDateToSearchActivity = pickedDate.getPickedDate();
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "DiningMenuDB.db";
     private static final String TABLE_FAVOURITES = "Favourites";
     private static final String TABLE_CACHEONE = "Cache1";
-    private static final String TABLE_CACHETWO = "Cache2";
 
+    //common column
     public static final String COLUMN_DININGITEM = "DiningItem";
+
+    //favourites column
     public static final String MENUITEM_ID = "MenuItemID";
+
+    //cache columns
     public static final String CACHE_ID = "CacheID";
     public static final String CACHE_DMY = "CacheDayMonthYear";
 
@@ -48,14 +51,14 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     //----------------------------favourites DB-----------------------------------------------------
+    // add a menuitem to favourites
     public void insertFavouritesItem(MenuItem favourite) {
 
         ContentValues values = new ContentValues();
         Gson gson = new Gson();
-        values.put(COLUMN_DININGITEM, gson.toJson(favourite).getBytes()/*.getDiningItem()*/);
-        String nameWithoutSpaces = favourite.name.replaceAll("\\s+","");
+        values.put(COLUMN_DININGITEM, gson.toJson(favourite).getBytes()); // turn obj into byte[]
+        String nameWithoutSpaces = favourite.name.replaceAll("\\s+",""); // take out spaces
         values.put(MENUITEM_ID, nameWithoutSpaces);
-        //values.put(COLUMN_DININGITEM, favourite/*.getDiningItem()*/);
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -63,7 +66,8 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public ArrayList<MenuItem> getFavouritesItems(/*String favourite*/) {
+    //returns an arraylist of all menuitems in favourites
+    public ArrayList<MenuItem> getFavouritesItems() {
         String selectQuery = "SELECT  * FROM " + TABLE_FAVOURITES;
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -77,16 +81,16 @@ public class DBHandler extends SQLiteOpenHelper {
                 byte[] blob = cursor.getBlob(cursor.getColumnIndex(COLUMN_DININGITEM));
                 String json = new String(blob);
                 Gson gson = new Gson();
+                // get obj back from byte[]
                 MenuItem favourite = gson.fromJson(json, new TypeToken<MenuItem>() {}.getType());
                 favouriteitems.add(favourite);
-                //favouriteitems.add((cursor.getString(cursor.getColumnIndex(COLUMN_DININGITEM))));
             } while (cursor.moveToNext());
         }
         cursor.close();
         db.close();
         return favouriteitems;
     }
-
+    // returns all favourites in a different format
     public ArrayList<ArrayList<List<MenuItem>>> getFavouritesAsAllMenu() {
         DBHandler dba = new DBHandler(context);
 
@@ -111,8 +115,7 @@ public class DBHandler extends SQLiteOpenHelper {
             for (int i = 0; i <= 4; i++) {
                 for (int j = 0; j <= 2; j++) {
                     for (int k = 0; k <= favitems.get(i).get(j).size() - 1; k++) {
-                        //String nameWithoutSpaces = favitems.get(i).get(j).get(k).name.replaceAll("\\s+","");
-                        if (/*nameWithoutSpaces*/favitems.get(i).get(j).get(k).name.toLowerCase().equals(a.name.toLowerCase())) {
+                        if (favitems.get(i).get(j).get(k).name.toLowerCase().equals(a.name.toLowerCase())) {
                             favhititems.get(i).get(j).add(favitems.get(i).get(j).get(k));
                             Log.d("logging", ""+favhititems.get(i).get(j).get(0).name);
                         }
@@ -123,21 +126,17 @@ public class DBHandler extends SQLiteOpenHelper {
         return favhititems;
     }
 
+    // take item off favourites list
     public void deleteFavouritesItem(MenuItem exFavourite) {
         SQLiteDatabase db = this.getReadableDatabase();
         Gson gson = new Gson();
 
-        //Log.d("-----------------------","-------------: "+String.valueOf(gson.toJson(exFavourite)));
-        //String[] x = new String[] {String.valueOf(gson.toJson(exFavourite).getBytes())};
-        //gson.toJson(exFavourite).getBytes()
-        //db.delete(TABLE_FAVOURITES, COLUMN_DININGITEM + " = ?", new String[] {String.valueOf(exFavourite)});
-        //int y = db.delete(TABLE_FAVOURITES, COLUMN_DININGITEM + " = ?", new String[] {String.valueOf(0)});
-        String nameWithoutSpaces = exFavourite.name.replaceAll("\\s+", "");
-        /*int y = */db.delete(TABLE_FAVOURITES, MENUITEM_ID + " = ?", new String[]{nameWithoutSpaces});
-        //Log.d("-----------------------", "-------------: " + y);
+        String nameWithoutSpaces = exFavourite.name.replaceAll("\\s+", ""); // take out spaces
+        db.delete(TABLE_FAVOURITES, MENUITEM_ID + " = ?", new String[]{nameWithoutSpaces});
         db.close();
     }
 
+    // check if a certain food is in favourites list
     public boolean checkIfFavourite(String item) {
         ArrayList<MenuItem> favouriteitems = getFavouritesItems();
         for(MenuItem menuitem : favouriteitems) {
@@ -150,6 +149,7 @@ public class DBHandler extends SQLiteOpenHelper {
     //----------------------------------------------------------------------------------------------
 
     //-----------------------------cache one DB-----------------------------------------------------
+    // cache a certain day's menu for every dininghall and meal
     public void insertCacheOneItem(ArrayList<ArrayList<List<MenuItem>>> allDHAllMeals, String dayMonthYear) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -163,19 +163,18 @@ public class DBHandler extends SQLiteOpenHelper {
         }
         ContentValues values = new ContentValues();
         Gson gson = new Gson();
-        values.put(COLUMN_DININGITEM, gson.toJson(allDHAllMeals).getBytes());
+        values.put(COLUMN_DININGITEM, gson.toJson(allDHAllMeals).getBytes()); // turn obj to byte[]
         cachedMenuNum++;
         e.putInt("cachedMenuNum", cachedMenuNum);
         e.apply();
         String cacheNum = ""+cachedMenuNum;
         values.put(CACHE_ID,cacheNum);
         values.put(CACHE_DMY,dayMonthYear);
-        //String nameWithoutSpaces = allDHAllMeals.get(0).get(0).get(0).name.replaceAll("\\s+","");
-        //values.put(MENUITEM_ID, nameWithoutSpaces);
         db.insert(TABLE_CACHEONE, null, values);
         db.close();
     }
 
+    // returns both cached menus
     public ArrayList<ArrayList<ArrayList<List<MenuItem>>>> getCacheOneItems() {
         String selectQuery = "SELECT  * FROM " + TABLE_CACHEONE;
 
@@ -190,6 +189,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 byte[] blob = cursor.getBlob(cursor.getColumnIndex(COLUMN_DININGITEM));
                 String json = new String(blob);
                 Gson gson = new Gson();
+                // byte[] to obj
                 ArrayList<ArrayList<List<MenuItem>>> cacheitem = gson.fromJson(json, new TypeToken<ArrayList<ArrayList<List<MenuItem>>>>() {}.getType());
                 cacheitems.add(cacheitem);
             } while (cursor.moveToNext());
@@ -199,6 +199,7 @@ public class DBHandler extends SQLiteOpenHelper {
         return cacheitems;
     }
 
+    // return menu specified by date if it is in the cache, null otherwise
     public ArrayList<ArrayList<List<MenuItem>>> searchCacheForDate(String dayMonthYear){
         String query = "Select * FROM " + TABLE_CACHEONE + " WHERE " + CACHE_DMY + " =  \"" + dayMonthYear + "\"";
 
@@ -209,6 +210,7 @@ public class DBHandler extends SQLiteOpenHelper {
             byte[] blob = cursor.getBlob(cursor.getColumnIndex(COLUMN_DININGITEM));
             String json = new String(blob);
             Gson gson = new Gson();
+            // byte[] to obj
             ArrayList<ArrayList<List<MenuItem>>> cacheitem = gson.fromJson(json, new TypeToken<ArrayList<ArrayList<List<MenuItem>>>>() {}.getType());
             cursor.close();
             db.close();
@@ -220,12 +222,11 @@ public class DBHandler extends SQLiteOpenHelper {
         }
     }
 
-    public void deleteCacheOneItem(/*ArrayList<ArrayList<List<MenuItem>>> exAllDHAllMeals*/) {
+    // delete second to last menu seen by user from the cache
+    public void deleteCacheOneItem() {
         SQLiteDatabase db = this.getReadableDatabase();
         Gson gson = new Gson();
         db.delete(TABLE_CACHEONE, CACHE_ID + " = ?", new String[]{"" + (cachedMenuNum - 2)});
-        //String nameWithoutSpaces = exAllDHAllMeals.get(0).get(0).get(0).name.replaceAll("\\s+", "");
-        //db.delete(TABLE_CACHEONE, MENUITEM_ID + " = ?", new String[]{nameWithoutSpaces});
         db.close();
     }
 
@@ -255,21 +256,10 @@ public class DBHandler extends SQLiteOpenHelper {
 
     //----------------------------------------------------------------------------------------------
 
-    //-----------------------------cache two DB-----------------------------------------------------
-    public void insertCacheTwoItem(ArrayList<MenuItem> favourite) {
-
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_DININGITEM, favourite.get(0).name);
-
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        db.insert(TABLE_CACHETWO, null, values);
-        db.close();
-    }
-    //----------------------------------------------------------------------------------------------
-
     @Override
     public void onCreate(SQLiteDatabase db) {
+        // favourites: diningitem, menuitemID
+        // cache: diningitem, cacheID, cachedaymonthyear
         String CREATE_FAVOURITES_TABLE = "CREATE TABLE " +
                 TABLE_FAVOURITES + "("
                 + COLUMN_DININGITEM
@@ -279,14 +269,9 @@ public class DBHandler extends SQLiteOpenHelper {
                 + TABLE_CACHEONE + "(" + COLUMN_DININGITEM + " TEXT," + CACHE_ID + " TEXT," +
                 CACHE_DMY+ " TEXT" +")";
 
-        String CREATE_CACHETWO_TABLE = "CREATE TABLE "
-                + TABLE_CACHETWO + "(" + COLUMN_DININGITEM + "TEXT" + ")";
 
         db.execSQL(CREATE_FAVOURITES_TABLE);
         db.execSQL(CREATE_CACHEONE_TABLE);
-        db.execSQL(CREATE_CACHETWO_TABLE);
-        //insertFavouritesItem(passedMenuList.getMenuList().get(0).name);
-        //Log.d("DB TEST", "ayyyyyyy: "+getFavouritesItems().get(0));
     }
 
     @Override
@@ -294,7 +279,6 @@ public class DBHandler extends SQLiteOpenHelper {
                           int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_FAVOURITES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CACHEONE);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CACHETWO);
         onCreate(db);
     }
 
